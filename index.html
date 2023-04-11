@@ -5,11 +5,78 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mem.Leek</title>
-    <link rel="stylesheet" href="./assets/css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./assets/css/main.css" rel="stylesheet">
 </head>
 <body>
-    <span id="counter"></span>
+    <div class="container">
+
+        <div class="row text-center">
+            <div class="col-12">
+                <h1>Mem.Leek</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 id="bytes"></h2>
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <h4>Miners</h4>
+            <div class="col">
+                <button class="btn btn-primary" id="miner1">Buy Miner 1</button>
+                <p>Cost: 100 Bytes</p>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" id="miner1">Buy Miner 2</button>
+                <p>Cost: 1e+3 Bytes</p>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" id="miner1">Buy Miner 3</button>
+                <p>Cost: 1e+5 Bytes</p>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" id="miner1">Buy Miner 4</button>
+                <p>Cost: 1e+7 Bytes</p>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" id="miner1">Buy Miner 5</button>
+                <p>Cost: 1e+10 Bytes</p>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" id="miner1">Buy Miner 6</button>
+                <p>Cost: 1e+14 Bytes</p>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" id="miner1">Buy Miner 7</button>
+                <p>Cost: 1e+19 Bytes</p>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" id="miner1">Buy Miner 8</button>
+                <p>Cost: 1e+25 Bytes</p>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        let globalBytes = 0;
+        let gameTickSpeed = 1000;
+        let UITick = 100;
+        let purchasedMiners = {
+            miner1: 1, 
+            miner2: 0,
+            miner3: 0,
+            miner4: 0,
+            miner5: 0,
+            miner6: 0,
+            miner7: 0,
+            miner8: 0
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="./assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./assets/js/main.js"></script>
 </body>
 </html>
