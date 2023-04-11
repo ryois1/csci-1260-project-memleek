@@ -5,13 +5,13 @@ import { formatBytes } from './utils/Format.js';
 
 // Create the miners
 const miner1 = new Miner1(1, 1, 10, 1, 0 );
-const miner2 = new Miner2(1, 1, 1e+3, 1, 0 );
-const miner3 = new Miner3(1, 1, 1e+5, 1, 0 );
+const miner2 = new Miner2(1, 1, 1e+3, 0, 0 );
+const miner3 = new Miner3(1, 1, 1e+5, 0, 0 );
 const miner4 = new Miner4(1, 1, 1e+7, 0, 0 );
 const miner5 = new Miner5(1, 1, 1e+10, 0, 0 );
 const miner6 = new Miner6(1, 1, 1e+14, 0, 0 );
 const miner7 = new Miner7(1, 1, 1e+19, 0, 0 );
-const miner8 = new Miner8(1, 1, 1e+25, 5, 0 );
+const miner8 = new Miner8(1, 1, 1e+25, 0, 0 );
 
 
 function GameTick(){

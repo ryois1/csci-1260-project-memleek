@@ -7,6 +7,9 @@ class Currency {
         this.code = code;
         this.name = name;
     }
-}
 
+    
+
+
+}
 export { Currency };

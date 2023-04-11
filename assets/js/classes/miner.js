@@ -28,6 +28,7 @@ class Miner {
     }
     buy(){
 
+      globalBits -= this.cost;
         //increases quantity by one
         this.quantity = this.quantity + 1;
         this.buyCount++;
@@ -35,6 +36,7 @@ class Miner {
         // the price is increased by 150x
         if (this.buyCount % 10 == 0){  
           this.cost = this.cost * 150;
+          this.multiplier = this.multiplier * 2;
         }
       }
 
