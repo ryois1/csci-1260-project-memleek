@@ -3,7 +3,7 @@
 const mysql = require("mysql2");
 const bodyParser = require('body-parser');
 const express = require("express");
-const port = 3000;
+const port = 3069;
 const app = express();
 const cookieParser = require('cookie-parser');
 const connection = mysql.createConnection({
@@ -327,6 +327,6 @@ wss.on('connection', (ws) => {
 
 });
 
-server.listen(process.env.PORT || port, () => {
+server.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });
