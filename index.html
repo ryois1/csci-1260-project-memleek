@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,11 +8,37 @@
     <title>Mem.Leek</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="./assets/css/main.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
 </head>
+
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top d-flex justify-content-between">
+
+        <div class="navbar-nav  col-4 align-items-start justify-content-center">
+            <span>Save State: <span id="saveState">Not Saved</span></span>
+            <button class="btn btn-outline-danger" type="button" id="resetButton" onclick="window.ResetState()">Reset
+                Save</button>
+        </div>
+
+        <div class="col-4  d-flex justify-content-center">
+            <span class="navbar-brand">Mem.Leek</span>
+        </div>
+
+        <button class="  navbar-toggler ml-auto  align-items-end" type="button" data-toggle="collapse"
+            data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse col-4 justify-content-center" id="navbarNavDropdown">
+            <button class="btn btn-outline-light" type="button" id="settingsButton">Settings</button>
+
+        </div>
+
+    </nav>
+
+
     <div class="container">
-
-
 
         <div class="row text-center">
             <div class="col-12">
@@ -27,47 +54,64 @@
 
         <div class="row text-center">
             <h4>Miners</h4>
-            <div class="row">
-                <button class="btn btn-primary" id="miner1">Buy Miner 1</button>
-                <p>Cost: 10 Bytes</p>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card-deck" id="miners"></div>
             </div>
-            <div class="row">
-                <button class="btn btn-primary" id="miner1">Buy Miner 2</button>
-                <p>Cost: 1e+3 Bytes</p>
+        </div>
+
+
+        <div class="row text-center">
+            <div class="col-12">
+                <h4>Cheat Buttons (Dev)</h4>
             </div>
-            <div class="row">
-                <button class="btn btn-primary" id="miner1">Buy Miner 3</button>
-                <p>Cost: 1e+5 Bytes</p>
+            <div class="col-12">
+                <button class="btn btn-outline-primary" type="button" onclick="window.AddBytes(100)">Add 100
+                    Bytes</button>
+                <button class="btn btn-outline-primary" type="button" onclick="window.AddBytes(1000)">Add 1000
+                    Bytes</button>
+                <button class="btn btn-outline-primary" type="button" onclick="window.AddBytes(10000)">Add 10000
+                    Bytes</button>
+                <button class="btn btn-outline-primary" type="button" onclick="window.AddBytes(100000)">Add 100000
+                    Bytes</button>
+                <button class="btn btn-outline-primary" type="button" onclick="window.AddBytes(1000000)">Add 1000000
+                    Bytes</button>
+                <button class="btn btn-outline-primary" type="button"
+                    onclick="window.AddBytes(1000000000000000000000000000)">Add 1000000000000000000000000000
+                    Bytes</button>
+                <button class="btn btn-outline-primary" type="button"
+                    onclick="window.AddBytes(100000000000000000000000000000000000000000000)">Add
+                    100000000000000000000000000000000000000000000
+                    Bytes</button>
             </div>
-            <div class="row">
-                <button class="btn btn-primary" id="miner1">Buy Miner 4</button>
-                <p>Cost: 1e+7 Bytes</p>
-            </div>
-            <div class="row">
-                <button class="btn btn-primary" id="miner1">Buy Miner 5</button>
-                <p>Cost: 1e+10 Bytes</p>
-            </div>
-            <div class="row">
-                <button class="btn btn-primary" id="miner1">Buy Miner 6</button>
-                <p>Cost: 1e+14 Bytes</p>
-            </div>
-            <div class="row">
-                <button class="btn btn-primary" id="miner1">Buy Miner 7</button>
-                <p>Cost: 1e+19 Bytes</p>
-            </div>
-            <div class="row">
-                <button class="btn btn-primary" id="miner1">Buy Miner 8</button>
-                <p>Cost: 1e+25 Bytes</p>
+            <div class="col-12">
+
+                <button class="btn btn-outline-danger" type="button" onclick="window.RemoveBytes(100)">Remove 100
+                    Bytes</button>
+                <button class="btn btn-outline-danger" type="button" onclick="window.RemoveBytes(1000)">Remove 1000
+                    Bytes</button>
+                <button class="btn btn-outline-danger" type="button" onclick="window.RemoveBytes(10000)">Remove 10000
+                    Bytes</button>
+                <button class="btn btn-outline-danger" type="button" onclick="window.RemoveBytes(100000)">Remove 100000
+                    Bytes</button>
+                <button class="btn btn-outline-danger" type="button" onclick="window.RemoveBytes(1000000)">Remove
+                    1000000
+                    Bytes</button>
+                <button class="btn btn-outline-danger" type="button"
+                    onclick="window.RemoveBytes(1000000000000000000000000000)">Remove 1000000000000000000000000000
+                    Bytes</button>
             </div>
         </div>
 
     </div>
     <script>
-        let globalBytes = 0;
+        let globalBytes = 10;
         let gameTickSpeed = 1000;
         let UITick = 100;
         let purchasedMiners = {
-            miner1: 1, 
+            miner1: 1,
             miner2: 0,
             miner3: 0,
             miner4: 0,
@@ -76,9 +120,14 @@
             miner7: 0,
             miner8: 0
         }
+        let settings = {
+            notation: "scientific"
+        }
     </script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script type="module" src="./assets/js/main.js"></script>
 </body>
+
 </html>

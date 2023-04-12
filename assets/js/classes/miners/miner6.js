@@ -9,12 +9,12 @@ class Miner6 extends Miner {
 
   genTick(miner5) {
     if (this.quantity > 0) {
-      console.log("Miner6 tick");
       var NewMiner5quantity = this.quantity * this.production;
       miner5.quantity = miner5.quantity + NewMiner5quantity;
+      return true;
     }
     else {
-      return;
+      return false;
     }
   }
 }

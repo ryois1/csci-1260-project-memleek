@@ -8,9 +8,9 @@ class Miner1 extends Miner {
   }
 
   genTick() {
-    console.log("Miner1 tick");
     let bytecount = globalBytes + (this.quantity * this.production);
     globalBytes = bytecount;
+    return true;
   }
 }
 
