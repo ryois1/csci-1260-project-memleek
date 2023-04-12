@@ -11,6 +11,7 @@ class Miner {
   //number of miners
   buyCount;
   //number of miners bought
+  multiplier;
 
   constructor(_id, _production, _cost, _quantity, _buyCount) {
     this.id = _id;
@@ -18,6 +19,7 @@ class Miner {
     this.cost = _cost;
     this.quantity = _quantity;
     this.buyCount = _buyCount;
+    this.multiplier = 1
   }
   next() {
     return this._id++;
@@ -35,7 +37,7 @@ class Miner {
     // the price is increased by 150x
     if (this.buyCount % 10 == 0) {
       this.cost = this.cost * 150;
-      this.multiplier = this.multiplier * 2;
+      this.production = this.production *2
     }
 
     console.log(`Current cost: ${this.cost}, New quantity: ${this.quantity}`);
