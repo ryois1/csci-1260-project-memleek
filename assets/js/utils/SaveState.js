@@ -30,7 +30,7 @@ async function loadFromServer(key) {
             console.log("Save state is not locked to another client!");
             // Get save state from server
             $.ajax({
-                url: `http://localhost:3000/api/game_state/${key}`,
+                url: `https://memleek-sync.ryois.net/api/game_state/${key}`,
                 type: 'GET',
                 success: function (data) {
                     if (data.status == false) {
@@ -86,7 +86,7 @@ function saveToServer(key) {
         return;
     }
     $.ajax({
-        url: `http://localhost:3000/api/game_state/${key}`,
+        url: `https://memleek-sync.ryois.net/api/game_state/${key}`,
         type: 'POST',
         data: { client_id: clientID, state: localStorage.getItem('savedata') },
         success: function () {
@@ -137,14 +137,14 @@ export { save, load, testLS, loadFromServer, saveToServer }
 function isLocked(key, clientID) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: `http://localhost:3000/api/game_state/${key}/lock`,
+            url: `https://memleek-sync.ryois.net/api/game_state/${key}/lock`,
             data: { client_id: clientID },
             type: 'GET',
             success: function (data) {
                 if ((data.client == clientID) || (data.client == null)) {
                     // Lock save state to this client
                     $.ajax({
-                        url: `http://localhost:3000/api/game_state/${key}/lock/${clientID}`,
+                        url: `https://memleek-sync.ryois.net/api/game_state/${key}/lock/${clientID}`,
                         type: 'POST',
                         success: function (data) {
                             console.log(`Save state locked this client: ${clientID}`);

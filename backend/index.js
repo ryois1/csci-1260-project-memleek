@@ -32,6 +32,9 @@ app.use(cors({
         else if (origin.includes("ryois.me")) {
             callback(null, true);
         }
+        else if (origin.includes("ryois.net")) {
+            callback(null, true);
+        }
         else {
             callback(new Error('Not allowed by CORS'));
         }

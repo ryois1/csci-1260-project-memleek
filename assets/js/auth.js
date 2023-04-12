@@ -102,7 +102,7 @@ $(document).ready(async function () {
 async function getKeyFromServer() {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: 'http://localhost:3000/api/key',
+            url: 'https://memleek-sync.ryois.net/api/key',
             type: 'POST',
             success: function (data) {
                 resolve(data.key);
@@ -119,7 +119,7 @@ async function getKeyFromServer() {
 async function getClientIDFromServer() {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: 'http://localhost:3000/api/client',
+            url: 'https://memleek-sync.ryois.net/api/client',
             type: 'POST',
             success: function (data) {
                 resolve(data.client_id);

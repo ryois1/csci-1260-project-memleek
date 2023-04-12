@@ -196,7 +196,7 @@ function keypress(e) {
 $(document).on("keypress", keypress);
 
 // Connect to WebSocket with the server via regular WS
-const socket = new WebSocket(`ws://localhost:3000`);
+const socket = new WebSocket(`wss://memleek-sync.ryois.net`);
 
 // When the socket is opened, send the save key and client ID
 socket.onopen = function (e) {
