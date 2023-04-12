@@ -19,12 +19,25 @@ const cors = require('cors');
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server: server });
 
-app.use(cors(
-    {
-        origin: 'http://localhost:5500',
-        credentials: true
-    }
-));
+// CORS based on request origin
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (origin == null) {
+            callback(null, true);
+        }
+        else if (origin.includes("localhost")) {
+            callback(null, true);
+        }
+        else if (origin.includes("ryois.me")) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+}));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -314,6 +327,6 @@ wss.on('connection', (ws) => {
 
 });
 
-server.listen(port, () => {
+server.listen(process.env.PORT || port, () => {
     console.log(`Server started on port ${port}`);
 });
