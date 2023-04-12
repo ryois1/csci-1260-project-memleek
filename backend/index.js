@@ -7,10 +7,10 @@ const port = 3069;
 const app = express();
 const cookieParser = require('cookie-parser');
 const connection = mysql.createConnection({
-    host: 'dbcluster.internal.ryois.me',
-    user: 'memleek_svc',
-    password: '6.l()j_1RHKfk6[V',
-    database: 'memleek'
+    host: process.env.MYSQL_HOST || 'localhost',
+    user: process.env.MYSQL_USER || 'root',
+    password: process.env.MYSQL_PASSWORD || 'password',
+    database: process.env.MYSQL_DATABASE || 'memleek'
 });
 const http = require('http');
 const WebSocket = require('ws');
