@@ -1,7 +1,7 @@
 const miners = [
     {
         id: "miner1",
-        name: "Miner 1",
+        name: "Crazed Pepa Pig",
         image: "1.png",
         description: "Bacon Pegga Pig",
         cost: "10",
@@ -18,15 +18,14 @@ const miners = [
         id: "miner3",
         name: "Jerk Blerk",
         image: "download.png",
-        description: "Kerng foo Pander",
+        description: "Kerng Foo Pander",
         cost: "1e+5",
-        url: "https://www.youtube.com/watch?v=7BkxsdESz4g"
     },
     {
         id: "miner4",
-        name: "Miner 4",
+        name: "Cursed Patrick",
         image: "Patrick.png",
-        description: "Cursed Patrick",
+        description: "Not a Goofy Goober",
         cost: "1e+7",
         url: "https://www.youtube.com/watch?v=EVR-6AfZ8gk"
     },
@@ -40,9 +39,9 @@ const miners = [
     },
     {
         id: "miner6",
-        name: "Miner 6",
+        name: "Spooderman",
         image: "Spooderman2.png",
-        description: "Spooderman",
+        description: "Not the hero we deserve, nor the hero we need, but the hero we get",
         cost: "1e+14",
         url: "https://www.youtube.com/watch?v=f_Pcu6wTzoA"
     },

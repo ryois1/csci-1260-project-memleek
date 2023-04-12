@@ -15,7 +15,6 @@ function load() {
     if (data == null) {
         return null;
     }
-    console.log(`Loading Data: ${JSON.stringify(data)}`);
     let output;
     try {
         output = JSON.parse(data);
@@ -70,21 +69,23 @@ async function loadFromServer(key, minerInstances) {
                         return;
                     }
                     console.log(`Loading save state from server:`);
-                    console.log(data.state);
+
+                    // decode base64 string
+
+                    const dataState = JSON.parse(atob(data.state));
+
                     // Store the key in localStorage
                     
-                    localStorage.setItem('savedata', data.state);
+                    localStorage.setItem('savedata', dataState);
                     cloudSyncSuccessfulSetup = true;
 
-                    
 
-                    console.log(minerInstances);
-                    globalBytes = data.state.globalBytes;
+                    globalBytes = dataState.globalBytes;
                     minerInstances.forEach(function (miner, i) {
-                        miner.id = data.state.minerInstances[i].id;
-                        miner.quantity = data.state.minerInstances[i].quantity;
-                        miner.buyCount = data.state.minerInstances[i].buyCount;
-                        miner.cost = data.state.minerInstances[i].cost;
+                        miner.id = dataState.minerInstances[i].id;
+                        miner.quantity = dataState.minerInstances[i].quantity;
+                        miner.buyCount = dataState.minerInstances[i].buyCount;
+                        miner.cost = dataState.minerInstances[i].cost;
                     });
 
                     // Show toast

@@ -136,7 +136,11 @@ app.get("/api/game_state/:key", (req, res) => {
             if (results.length == 0) {
                 return res.json({ status: false, error: "No game state found" });
             }
-            res.json({ status: true, state: results[0].state });
+
+            // encode state to base64
+            const state = Buffer.from(results[0].state).toString('base64');
+
+            res.json({ status: true, state: state});
         }
     );
 });

@@ -10,14 +10,14 @@ testLS();
 
 // Create the miners
 
-const miner1 = new Miner1(1, 1, 10, 0, 0);
-const miner2 = new Miner2(2, 1, 1e+3, 0, 0);
-const miner3 = new Miner3(3, 1, 1e+5, 0, 0);
-const miner4 = new Miner4(4, 1, 1e+7, 0, 0);
-const miner5 = new Miner5(5, 1, 1e+10, 0, 0);
-const miner6 = new Miner6(6, 1, 1e+14, 0, 0);
-const miner7 = new Miner7(7, 1, 1e+19, 0, 0);
-const miner8 = new Miner8(8, 1, 1e+25, 0, 0);
+let miner1 = new Miner1(1, 1, 10, 0, 0);
+let miner2 = new Miner2(2, 1, 1e+3, 0, 0);
+let miner3 = new Miner3(3, 1, 1e+5, 0, 0);
+let miner4 = new Miner4(4, 1, 1e+7, 0, 0);
+let miner5 = new Miner5(5, 1, 1e+10, 0, 0);
+let miner6 = new Miner6(6, 1, 1e+14, 0, 0);
+let miner7 = new Miner7(7, 1, 1e+19, 0, 0);
+let miner8 = new Miner8(8, 1, 1e+25, 0, 0);
 
 const minerInstances = [
     miner1,
@@ -92,7 +92,6 @@ function ResetState() {
 try {
     const saveState = load();
     if (saveState) {
-        console.log(saveState);
         globalBytes = saveState.globalBytes;
         minerInstances.forEach(function (miner, i) {
             miner.id = saveState.minerInstances[i].id;
@@ -121,20 +120,20 @@ function RemoveBytes(bytes) {
 
 
 // Run the game tick based on the gameTickSpeed (default: 1s)
-setInterval(GameTick, gameTickSpeed);
+setInterval(GameTick, settings.gameTickSpeed);
 
 
 // Update the UI based on the UITick (default: 100ms)
 setInterval(() => {
     updateBytes(globalBytes);
     updateCards(minerInstances);
-}, UITick);
+}, settings.UITick);
 
 
 // Save to the cloud based on the cloudSyncSpeed (default: 5s)
 setInterval(() => {
     saveToServer(saveKey);
-}, cloudSyncSpeed);
+}, settings.cloudSyncSpeed);
 
 
 // Draw the UI

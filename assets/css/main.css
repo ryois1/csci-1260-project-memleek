@@ -13,7 +13,7 @@ body {
     top: 0;
     bottom: 0;
     position: absolute;
-    background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+    background: linear-gradient(124deg, #41009e, #2d95fd, #cb2dfd);
     background-size: 1800% 1800%;
 
     -webkit-animation: rainbow 18s ease infinite;
@@ -238,7 +238,6 @@ label.fc-dark {
 .game-logo {
     max-width: 50%;
     height: auto;
-
     object-fit: contain;
 }
 
@@ -254,4 +253,10 @@ label.fc-dark {
 
 .miner-name {
     margin-top: 0.5rem;
+}
+
+.save-indicator {
+    min-height: 2rem;
+    max-width: 45%;
+    margin: 0 auto;
 }
