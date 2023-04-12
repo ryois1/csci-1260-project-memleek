@@ -1,19 +1,52 @@
+import { IconMap } from "./Icons.js";
+
 function save(data) {
-    // console.log(`Saving Data: ${JSON.stringify(data)}`);
+    $("#localSaveState").html(IconMap["saving"]);
     localStorage.setItem("savedata", JSON.stringify(data));
-    $("#localSaveState").html("Saved");
+    // Wait 1 second before changing the icon back
+    setTimeout(function () {
+        $("#localSaveState").html(IconMap["saved"]);
+    }, 1000);
 }
 
 function load() {
+    $("#localSaveState").html(IconMap["loading"]);
     const data = localStorage.getItem("savedata");
     if (data == null) {
         return null;
     }
-    // console.log(`Loading Data: ${JSON.stringify(data)}`);
-    return JSON.parse(data);
+    console.log(`Loading Data: ${JSON.stringify(data)}`);
+    let output;
+    try {
+        output = JSON.parse(data);
+    } catch (e) {
+        console.log("Error parsing save data!");
+        // Show toast
+        Toastify({
+            text: "Error parsing local save data!",
+            duration: 3000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
+            }
+        }).showToast();
+
+        // Clear the save data
+        localStorage.removeItem("savedata");
+
+        // Try to load from server
+        loadFromServer(localStorage.getItem('key'));
+
+
+    }
+    return output;
 }
 
 async function loadFromServer(key) {
+    $("#cloudSaveState").html(IconMap["connecting"]);
     let clientID = localStorage.getItem('clientID');
     // See if save state is locked to another client
     isLocked(key, clientID).then((locked) => {
@@ -21,7 +54,7 @@ async function loadFromServer(key) {
             console.log("Save state is locked to another client!");
             gameInitialized = false;
             gameLocked = true;
-            $("#cloudSaveState").html("Locked");
+            $("#cloudSaveState").html(IconMap["cloud_locked"]);
             $("#cards").addClass("locked");
             $("#resetButton").addClass("locked");
             $("#alert").addClass("visibleAlert");
@@ -30,7 +63,7 @@ async function loadFromServer(key) {
             console.log("Save state is not locked to another client!");
             // Get save state from server
             $.ajax({
-                url: `https://memleek-sync.ryois.net/api/game_state/${key}`,
+                url: `${settings.cloudSyncBaseURL}/game_state/${key}`,
                 type: 'GET',
                 success: function (data) {
                     if (data.status == false) {
@@ -38,11 +71,10 @@ async function loadFromServer(key) {
                     }
                     console.log(`Loading save state from server: ${JSON.stringify(data)}`);
                     // Store the key in localStorage
-
-                    // Decode from base64
-                    const jsonData = JSON.stringify(data.state);
-                    localStorage.setItem('savedata', jsonData);
+                    
+                    localStorage.setItem('savedata', data.state);
                     cloudSyncSuccessfulSetup = true;
+                    load(data.state);
                     // Show toast
                     Toastify({
                         text: "Save state loaded!",
@@ -55,6 +87,7 @@ async function loadFromServer(key) {
                             background: "linear-gradient(90deg, rgba(0,50,0,1) 0%, rgba(0,193,58,1) 100%)",
                         }
                     }).showToast();
+                    $("#cloudSaveState").html(IconMap["downloaded"]);
                     gameInitialized = true;
                 },
                 // if the request fails, display an error message
@@ -72,6 +105,7 @@ async function loadFromServer(key) {
                             background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
                         }
                     }).showToast();
+                    $("#cloudSaveState").html(IconMap["error"]);
                 }
             });
         }
@@ -80,28 +114,21 @@ async function loadFromServer(key) {
 
 
 function saveToServer(key) {
+    $("#cloudSaveState").html(IconMap["uploading"]);
     console.log("Saving to server...")
     let clientID = localStorage.getItem('clientID');
     if (!gameInitialized) {
         return;
     }
     $.ajax({
-        url: `https://memleek-sync.ryois.net/api/game_state/${key}`,
+        url: `${settings.cloudSyncBaseURL}/game_state/${key}`,
         type: 'POST',
         data: { client_id: clientID, state: localStorage.getItem('savedata') },
         success: function () {
-            $("#cloudSaveState").html("Saved");
-            Toastify({
-                text: "Save state sent to server!",
-                duration: 1000,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "linear-gradient(90deg, rgba(0,50,0,1) 0%, rgba(0,193,58,1) 100%)",
-                }
-            }).showToast();
+            // wait 1 second before changing the icon back
+            setTimeout(function () {
+                $("#cloudSaveState").html(IconMap["uploaded"]);
+            }, 1000);
         },
         // if the request fails, display an error message
         error: function (data) {
@@ -118,6 +145,7 @@ function saveToServer(key) {
                     background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
                 }
             }).showToast();
+            $("#cloudSaveState").html(IconMap["upload_error"]);
         }
     });
 }
@@ -137,14 +165,14 @@ export { save, load, testLS, loadFromServer, saveToServer }
 function isLocked(key, clientID) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: `https://memleek-sync.ryois.net/api/game_state/${key}/lock`,
+            url: `${settings.cloudSyncBaseURL}/game_state/${key}/lock`,
             data: { client_id: clientID },
             type: 'GET',
             success: function (data) {
                 if ((data.client == clientID) || (data.client == null)) {
                     // Lock save state to this client
                     $.ajax({
-                        url: `https://memleek-sync.ryois.net/api/game_state/${key}/lock/${clientID}`,
+                        url: `${settings.cloudSyncBaseURL}/game_state/${key}/lock/${clientID}`,
                         type: 'POST',
                         success: function (data) {
                             console.log(`Save state locked this client: ${clientID}`);
@@ -158,7 +186,7 @@ function isLocked(key, clientID) {
                     });
                 }
                 else {
-                        console.log(`Save state locked by client: ${data.client}`);
+                    console.log(`Save state locked by client: ${data.client}`);
                     // Show toast
                     Toastify({
                         text: "Save state locked by another client!",

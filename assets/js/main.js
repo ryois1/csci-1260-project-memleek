@@ -3,7 +3,9 @@
 import { Miner1, Miner2, Miner3, Miner4, Miner5, Miner6, Miner7, Miner8 } from './classes/miners/index.js';
 import { formatBytes, updateBytes } from './utils/Format.js';
 import { miners } from './miners.js';
-import { save, load, testLS, saveToServer } from './utils/SaveState.js';
+import { save, load, testLS, saveToServer, loadFromServer } from './utils/SaveState.js';
+import { drawCards, updateCards, drawCheats } from './utils/DrawUI.js';
+import { validateJSONPromise } from './utils/Validate.js';
 
 testLS();
 
@@ -32,7 +34,7 @@ const minerInstances = [
 globalBytes = 10;
 
 function GameTick() {
-    if(!gameInitialized) {
+    if (!gameInitialized) {
         return;
     }
     const successfulTicks = [];
@@ -55,19 +57,17 @@ function GameTick() {
 }
 
 function BuyMiner(miner) {
-    console.log(`Trying to buy ${miner}...`);
     try {
         const target = eval(miner);
         if (globalBytes >= target.cost) {
             target.buy(); // Buy the miner
-            drawCards();
+            updateCards(minerInstances);
             const tooltip = bootstrap.Tooltip.getInstance(`#miner${target.id}-btn`);
             tooltip.setContent({ '.tooltip-inner': `Bought: ${target.buyCount}` })
         } else {
-            console.log("Not enough bytes!");
             Toastify({
                 text: "Not enough bytes!",
-                duration: 3000,
+                duration: 1000,
                 close: true,
                 gravity: "top", // `top` or `bottom`
                 position: "right", // `left`, `center` or `right`
@@ -83,21 +83,31 @@ function BuyMiner(miner) {
 }
 
 function ResetState() {
-    localStorage.removeItem("saveState");
+    localStorage.removeItem("savedata");
+    localStorage.removeItem("key");
     location.reload();
+    globalBytes = 10;
 }
 
 // Load the save state
-const saveState = load();
-if (saveState) {
-    globalBytes = saveState.globalBytes;
-    minerInstances.forEach(function (miner, i) {
-        miner.id = saveState.minerInstances[i].id;
-        miner.quantity = saveState.minerInstances[i].quantity;
-        miner.buyCount = saveState.minerInstances[i].buyCount;
-        miner.cost = saveState.minerInstances[i].cost;
+try {
+    const saveState = load();
+    validateJSONPromise(saveState).then((result) => {
+        if (result) {
+            globalBytes = saveState.globalBytes;
+            minerInstances.forEach(function (miner, i) {
+                miner.id = saveState.minerInstances[i].id;
+                miner.quantity = saveState.minerInstances[i].quantity;
+                miner.buyCount = saveState.minerInstances[i].buyCount;
+                miner.cost = saveState.minerInstances[i].cost;
+            });
+        }
     });
+} catch (e) {
+    console.log(e);
+    loadFromServer(saveKey);
 }
+
 
 function AddBytes(bytes) {
     globalBytes += bytes;
@@ -111,120 +121,36 @@ function RemoveBytes(bytes) {
     globalBytes -= bytes;
 }
 
-// Run the game tick every second
+
+// Run the game tick based on the gameTickSpeed (default: 1s)
 setInterval(GameTick, gameTickSpeed);
 
-// Update the UI every 100ms
+
+// Update the UI based on the UITick (default: 100ms)
 setInterval(() => {
     updateBytes(globalBytes);
-    drawCards();
+    updateCards(minerInstances);
 }, UITick);
 
+
+// Save to the cloud based on the cloudSyncSpeed (default: 5s)
 setInterval(() => {
     saveToServer(saveKey);
 }, cloudSyncSpeed);
 
-miners.forEach(function (miner, i) {
-    $("#miners").append(`<div class="card text-white bg-dark miner" style="width: 256px;">
-        <img class="card-img-top miner-img" src="/assets/images/${miner.image}">
-        <div class="card-body text-center" id="${miner.id}">
-            <button class="btn btn-outline-primary" id="${miner.id}-btn" onclick="BuyMiner('${miner.id}');" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Bought: ${minerInstances[i].buyCount}">Buy ${miner.name}</button>
-            <p class="card-text" id="${miner.id}-qty">Quantity: ${minerInstances[i].quantity}</p>
-            <p class="card-text" id="${miner.id}-cost">Cost: ${formatBytes(miner.cost)}</p>
-            <span>${miner.description}</span>
-        </div>
-    </div>`);
-});
 
+// Draw the UI
+drawCards(miners, minerInstances);
+drawCheats();
+
+
+// Make the functions global
 window.BuyMiner = BuyMiner; // Make the BuyMiner function global
 window.ResetState = ResetState; // Make the ResetState function global
 window.AddBytes = AddBytes; // Make the AddBytes function global
 window.RemoveBytes = RemoveBytes; // Make the RemoveBytes function global
 
+
+// Initialize tooltips
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-
-function drawCards() {
-    minerInstances.forEach(function (miner, i) {
-        $(`#miner${miner.id}-btn`).data('bs-title', `Bought: ${miner.buyCount}`);
-        $(`#miner${miner.id}-qty`).html(`Quantity: ${miner.quantity}`);
-        $(`#miner${miner.id}-cost`).html(`Cost: ${formatBytes(miner.cost)}`);
-        if (globalBytes >= miner.cost) {
-            $(`#miner${miner.id}-btn`).removeClass("cannotBuy") // Enough bytes to buy
-        } else {
-            $(`#miner${miner.id}-btn`).addClass("cannotBuy"); // Not enough bytes to buy
-        }
-    });
-}
-
-
-// on keypress event handler
-// Hotkeys
-
-function keypress(e) {
-    switch(e.key) {
-        case "1":
-            BuyMiner("miner1");
-            break;
-        case "2":
-            BuyMiner("miner2");
-            break;
-        case "3":
-            BuyMiner("miner3");
-            break;
-        case "4":
-            BuyMiner("miner4");
-            break;
-        case "5":
-            BuyMiner("miner5");
-            break;
-        case "6":
-            BuyMiner("miner6");
-            break;
-        case "7":
-            BuyMiner("miner7");
-            break;
-        case "8":
-            BuyMiner("miner8");
-            break;
-        default:
-            break;
-    }
-};
-
-// add event listener
-$(document).on("keypress", keypress);
-
-// Connect to WebSocket with the server via regular WS
-const socket = new WebSocket(`wss://memleek-sync.ryois.net`);
-
-// When the socket is opened, send the save key and client ID
-socket.onopen = function (e) {
-    socket.send(JSON.stringify({
-        type: "auth",
-        payload: {
-            saveKey: saveKey,
-            clientID: localStorage.getItem("clientID")
-        }
-    }));
-
-};
-
-// When the socket receives a message, parse it and handle it
-socket.onmessage = function (event) {
-    const data = JSON.parse(event.data);
-    switch (data.type) {
-        case "auth":
-            console.log(`Authenticated with server!`);
-            break;
-        case "heartbeat":
-            if(data.message.status === "SYN") {
-            socket.send(JSON.stringify({ type: "heartbeat", payload: { status: "SYN-ACK", clientID: localStorage.getItem("clientID"), key: saveKey } }));
-            }
-            else if (data.message.status === "SYN-ACK") {
-                console.log("Heartbeat ACK'd");
-            }
-        default:
-            break;
-    }
-};

@@ -2,9 +2,81 @@ html,
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
     color: #fff;
     background: #333;
+    font-family: "Lucida Console", "Courier New", monospace;
+
+    height: 100%;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+    background-size: 1800% 1800%;
+
+    -webkit-animation: rainbow 18s ease infinite;
+    -z-animation: rainbow 18s ease infinite;
+    -o-animation: rainbow 18s ease infinite;
+    animation: rainbow 18s ease infinite;
+}
+
+@-webkit-keyframes rainbow {
+    0% {
+        background-position: 0% 82%
+    }
+
+    50% {
+        background-position: 100% 19%
+    }
+
+    100% {
+        background-position: 0% 82%
+    }
+}
+
+@-moz-keyframes rainbow {
+    0% {
+        background-position: 0% 82%
+    }
+
+    50% {
+        background-position: 100% 19%
+    }
+
+    100% {
+        background-position: 0% 82%
+    }
+}
+
+@-o-keyframes rainbow {
+    0% {
+        background-position: 0% 82%
+    }
+
+    50% {
+        background-position: 100% 19%
+    }
+
+    100% {
+        background-position: 0% 82%
+    }
+}
+
+@keyframes rainbow {
+    0% {
+        background-position: 0% 82%
+    }
+
+    50% {
+        background-position: 100% 19%
+    }
+
+    100% {
+        background-position: 0% 82%
+    }
+
 }
 
 .title {
@@ -27,14 +99,25 @@ body {
 }
 
 .miner {
-    margin-left: 1em;
-    margin-right: 1em;
-    margin-bottom: 1em;
+    margin-left: 1.8em;
+    margin-right: 1.8em;
+    margin-bottom: 1.8em;
+    width: 256px;
+}
+
+.miner:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    transition: all .2s ease-in-out;
+    box-shadow: 0 0 11px rgba(0,0,0,.5); 
 }
 
 .navbar-brand {
     font-weight: bold;
     color: #fff;
+    font-size: 2em;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
 }
 
 .navbar {
@@ -55,13 +138,12 @@ body {
     margin-right: 1rem;
 }
 
-/* Make modal background dark */
-
 .modal {
     background-color: rgba(0, 0, 0, 0.9);
 }
 
-.modal-dialog, .modal-content {
+.modal-dialog,
+.modal-content {
     background-color: #333;
 }
 
@@ -69,7 +151,7 @@ body {
     border-bottom: 1px solid #000;
 }
 
-.modal-footer{
+.modal-footer {
     border-top: 1px solid #000;
 }
 
@@ -87,7 +169,7 @@ input.fc-dark {
 
 label.fc-dark {
     color: #fff !important;
-}   
+}
 
 .locked {
     pointer-events: none;
@@ -101,4 +183,71 @@ label.fc-dark {
 
 .visibleAlert {
     display: block;
+}
+
+/* Media width  for 768px and up */
+
+@media (max-width: 992px) {
+    #bytes {
+        font-size: 15vw;
+    }
+    
+    #bytesExt {
+        font-size: 10vw;
+    }
+}
+
+/* Media width  for 992px and up */
+@media screen and (min-width: 992px) {
+    #bytes {
+        font-size: 6rem;
+    }
+    
+    #bytesExt {
+        font-size: 3rem;
+    }
+}
+
+
+.mainrow {
+    display: inline
+}
+
+.icon_row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon_col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-cheats {
+    margin-top: 0.5rem;
+}
+
+.navbar.bg-dark {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.game-logo {
+    max-width: 50%;
+    height: auto;
+
+    object-fit: contain;
+}
+
+.dev-opts {
+    max-width: 70%;
+    margin:0 auto;
+}
+
+.btn-cheat {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
 }

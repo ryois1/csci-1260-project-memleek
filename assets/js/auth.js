@@ -1,4 +1,5 @@
 // Document ready function jQuery
+import { IconMap } from './utils/Icons.js';
 import { loadFromServer } from './utils/SaveState.js';
 
 $(document).ready(async function () {
@@ -11,7 +12,6 @@ $(document).ready(async function () {
 
     // check to see if localStorage has a key
     if (localStorage.getItem('key') === null) {
-
         let tempNewKey;
         $("#newUserModal").show();
 
@@ -36,19 +36,7 @@ $(document).ready(async function () {
             // Set in globals
             saveKey = saveKeyInput;
             // Display key in span
-            $('#saveKey').html(`Save Key: <code>${saveKeyInput}</code>`);
-            // Show toast
-            Toastify({
-                text: "Save key loaded!",
-                duration: 3000,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "linear-gradient(90deg, rgba(0,50,0,1) 0%, rgba(0,193,58,1) 100%)",
-                }
-            }).showToast();
+            $('#saveKey').html(`<code>${saveKeyInput}</code>`);
             // Load save state from server
             loadFromServer(saveKey);
         });
@@ -60,37 +48,14 @@ $(document).ready(async function () {
             // Set in globals
             saveKey = tempNewKey;
             // Display key in span
-            $('#saveKey').html(`Save Key: <code>${tempNewKey}</code>`);
-            // Show toast
-            Toastify({
-                text: "Save key loaded!",
-                duration: 3000,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "linear-gradient(90deg, rgba(0,50,0,1) 0%, rgba(0,193,58,1) 100%)",
-                }
-            }).showToast();
+            $('#saveKey').html(`<code>${tempNewKey}</code>`);
+            $("#cloudSaveState").html(IconMap['cloud_waiting']);
             gameInitialized = true;
         });
     } else {
         saveKey = localStorage.getItem('key');
         // Display key in span
-        $('#saveKey').html(`Save Key: <code>${localStorage.getItem('key')}</code>`);
-        // Show toast
-        Toastify({
-            text: "Save key loaded!",
-            duration: 3000,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            style: {
-                background: "linear-gradient(90deg, rgba(0,50,0,1) 0%, rgba(0,193,58,1) 100%)",
-            }
-        }).showToast();
+        $('#saveKey').html(`<code>${localStorage.getItem('key')}</code>`);
 
         // Load save state from server
         loadFromServer(saveKey);
@@ -102,7 +67,7 @@ $(document).ready(async function () {
 async function getKeyFromServer() {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: 'https://memleek-sync.ryois.net/api/key',
+            url: `${settings.cloudSyncBaseURL}/key`,
             type: 'POST',
             success: function (data) {
                 resolve(data.key);
@@ -119,7 +84,7 @@ async function getKeyFromServer() {
 async function getClientIDFromServer() {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: 'https://memleek-sync.ryois.net/api/client',
+            url: `${settings.cloudSyncBaseURL}/client`,
             type: 'POST',
             success: function (data) {
                 resolve(data.client_id);

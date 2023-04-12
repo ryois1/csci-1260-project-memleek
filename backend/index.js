@@ -12,6 +12,15 @@ const connection = mysql.createConnection({
     password: process.env.MYSQL_PASSWORD || 'password',
     database: process.env.MYSQL_DATABASE || 'memleek'
 });
+const pool = mysql.createPool({
+    host: process.env.MYSQL_HOST || 'localhost',
+    user: process.env.MYSQL_USER || 'root',
+    password: process.env.MYSQL_PASSWORD || 'password',
+    database: process.env.MYSQL_DATABASE || 'memleek',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
 const http = require('http');
 const WebSocket = require('ws');
 const { v4: uuidv4 } = require('uuid');
@@ -50,7 +59,7 @@ app.use(cookieParser());
 // API Endpoints
 app.post("/api/key", (req, res) => {
     const key = uuidv4();
-    connection.query(
+    pool.query(
         'INSERT INTO `users` (`id`) VALUES (?)',
         [key],
         function (err, results) {
@@ -61,7 +70,7 @@ app.post("/api/key", (req, res) => {
 
 app.post("/api/client", (req, res) => {
     const client_id = uuidv4();
-    connection.query(
+    pool.query(
         'INSERT INTO `clients` (`id`) VALUES (?)',
         [client_id],
         function (err, results) {
@@ -83,7 +92,7 @@ app.post("/api/game_state/:key", (req, res) => {
     }
 
     // Check if client is locked to this save state
-    connection.query(
+    pool.query(
         'SELECT `client_id` FROM `game_state_locks` WHERE `user_id` = ?',
         [req.body.client_id],
         function (err, results) {
@@ -91,7 +100,7 @@ app.post("/api/game_state/:key", (req, res) => {
                 console.log(err);
             }
             if (results.length == 0) {
-                connection.query(
+                pool.query(
                     'INSERT INTO `game_states` (`user_id`, `state`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `state` = ?',
                     [req.params.key, req.body.state, req.body.state],
                     function (err) {
@@ -114,7 +123,7 @@ app.get("/api/game_state/:key", (req, res) => {
     if (req.params.key == "undefined") {
         return res.json({ status: false, error: "No key provided" });
     }
-    connection.query(
+    pool.query(
         'SELECT `state` FROM `game_states` WHERE `user_id` = ?',
         [req.params.key],
         function (err, results) {
@@ -142,12 +151,12 @@ app.post("/api/game_state/:key/lock/:client", (req, res) => {
     if (req.params.client == "undefined") {
         return res.json({ status: false, error: "No client provided" });
     }
-    connection.query(
+    pool.query(
         'SELECT `client_id` FROM `game_state_locks` WHERE `user_id` = ?',
         [req.params.key],
         function (err, results) {
             if (results.length == 0) {
-                connection.query(
+                pool.query(
                     'INSERT INTO `game_state_locks` (`user_id`, `client_id`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `client_id` = ?',
                     [req.params.key, req.params.client, req.params.client],
                     function (err, results) {
@@ -176,8 +185,7 @@ app.get("/api/game_state/:key/lock", (req, res) => {
     if (req.params.key == "undefined") {
         return res.json({ status: false, error: "No key provided" });
     }
-    connection.query(
-        'SELECT `client_id` FROM `game_state_locks` WHERE `user_id` = ?',
+    pool.query('SELECT `client_id` FROM `game_state_locks` WHERE `user_id` = ?',
         [req.params.key],
         function (err, results) {
             if (results.length == 0) {
@@ -204,7 +212,7 @@ app.delete("/api/game_state/:key/lock/:client", (req, res) => {
     if (req.params.client == "undefined") {
         return res.json({ status: false, error: "No client provided" });
     }
-    connection.query(
+    pool.query(
         'DELETE FROM `game_state_locks` WHERE `user_id` = ? AND `client_id` = ?',
         [req.params.key, req.params.client],
         function (err, results) {
@@ -228,82 +236,93 @@ wss.on('connection', (ws) => {
         switch (message.type) {
             case "auth":
                 if (message.payload.saveKey == null) {
-                    ws.send(JSON.stringify({type: "error", message: "No key provided"}));
+                    ws.send(JSON.stringify({ type: "error", message: "No key provided" }));
                     return;
                 }
                 if (message.payload.saveKey == "undefined") {
-                    ws.send(JSON.stringify({type: "error", message: "No key provided"}));
+                    ws.send(JSON.stringify({ type: "error", message: "No key provided" }));
                     return;
                 }
-                if(message.payload.clientID == null) {
-                    ws.send(JSON.stringify({type: "error", message: "No client provided"}));
+                if (message.payload.clientID == null) {
+                    ws.send(JSON.stringify({ type: "error", message: "No client provided" }));
                     return;
                 }
-                if(message.payload.clientID == "undefined") {
-                    ws.send(JSON.stringify({type: "error", message: "No client provided"}));
+                if (message.payload.clientID == "undefined") {
+                    ws.send(JSON.stringify({ type: "error", message: "No client provided" }));
                     return;
                 }
-                connection.query(
+                pool.query(
                     'SELECT `client_id` FROM `game_state_locks` WHERE `user_id` = ?',
                     [message.key],
                     function (err, results) {
                         if (results.length == 0) {
-                            ws.send(JSON.stringify({type: "locking", message: "No lock found"}));
+                            ws.send(JSON.stringify({ type: "locking", message: "No lock found" }));
                             return;
                         }
                         if (results[0].client_id == message.client) {
-                            ws.send(JSON.stringify({type: "locking", message: "Lock found"}));
+                            ws.send(JSON.stringify({ type: "locking", message: "Lock found" }));
                             return;
                         }
-                        ws.send(JSON.stringify({type: "locking", message: "Lock found"}));
+                        ws.send(JSON.stringify({ type: "locking", message: "Lock found" }));
                     }
                 );
                 break;
             case "heartbeat":
-                if(message.payload.clientID == null) {
-                    ws.send(JSON.stringify({type: "error", message: "No client provided"}));
+                if (message.payload.clientID == null) {
+                    ws.send(JSON.stringify({ type: "error", message: "No client provided" }));
                     return;
                 }
-                if(message.payload.clientID == "undefined") {
-                    ws.send(JSON.stringify({type: "error", message: "No client provided"}));
+                if (message.payload.clientID == "undefined") {
+                    ws.send(JSON.stringify({ type: "error", message: "No client provided" }));
                     return;
                 }
                 if (message.payload.key == null) {
-                    ws.send(JSON.stringify({type: "error", message: "No key provided"}));
+                    ws.send(JSON.stringify({ type: "error", message: "No key provided" }));
                     return;
                 }
                 if (message.payload.key == "undefined") {
-                    ws.send(JSON.stringify({type: "error", message: "No key provided"}));
+                    ws.send(JSON.stringify({ type: "error", message: "No key provided" }));
                     return;
                 }
-                connection.query(
+                pool.query(
                     'SELECT `client_id` FROM `game_state_locks` WHERE `user_id` = ? AND `client_id` = ?',
                     [message.payload.key, message.payload.clientID],
                     function (err, results) {
                         if (results.length == 0) {
-                            ws.send(JSON.stringify({type: "locking", message: "No lock found"}));
+                            ws.send(JSON.stringify({ type: "locking", message: "No lock found" }));
+                            // No lock found, Lock to this client
+                            pool.query(
+                                'INSERT INTO `game_state_locks` (`user_id`, `client_id`) VALUES (?, ?)',
+                                [message.payload.key, message.payload.clientID],
+                                function (err, results2) {
+                                    if (err) {
+                                        ws.send(JSON.stringify({ type: "error", message: err }));
+                                    }
+                                    ws.send(JSON.stringify({ type: "heartbeat", message: { status: "ACK" } }));
+                                }
+                            );
                             return;
                         }
                         if (results[0].client_id == message.payload.clientID) {
                             // Update heartbeat time for this client and key pair in database
-                            connection.query(
+                            pool.query(
                                 'UPDATE `game_state_locks` SET `last_ping` = CURRENT_TIMESTAMP WHERE `user_id` = ? AND `client_id` = ?',
                                 [message.payload.key, message.payload.clientID],
                                 function (err, results2) {
                                     if (err) {
-                                        ws.send(JSON.stringify({type: "error", message: err}));
+                                        ws.send(JSON.stringify({ type: "error", message: err }));
                                         return;
                                     }
-                                    ws.send(JSON.stringify({type: "heartbeat", message: {status: "ACK"}}));
+                                    ws.send(JSON.stringify({ type: "heartbeat", message: { status: "ACK" } }));
                                 }
                             );
-
-                            connection.commit();
                         } else {
-                            ws.send(JSON.stringify({type: "locking", message: "Lock found"}));
+                            ws.send(JSON.stringify({ type: "locking", message: "Lock found" }));
+                            
                         }
                     }
                 );
+                break;
         }
     });
 
@@ -323,13 +342,22 @@ wss.on('connection', (ws) => {
 
     // Heartbeat
     setInterval(() => {
-        ws.send(JSON.stringify({type: "heartbeat", message: {time: Date.now(), status: "SYN"}}));
+        ws.send(JSON.stringify({ type: "heartbeat", message: { time: Date.now(), status: "SYN" } }));
     }, 500);
-
-
-
 });
 
 server.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });
+
+// Periodically check for expired locks and remove them
+setInterval(() => {
+    pool.query(
+        'DELETE FROM `game_state_locks` WHERE `last_ping` < DATE_SUB(NOW(), INTERVAL 5 SECOND)',
+        function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+        }
+    );
+}, 5000);

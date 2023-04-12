@@ -1,5 +1,4 @@
 import { Miner } from '../miner.js';
-import { ECurrency } from '../../enums/Currency.js';
 class Miner1 extends Miner {
 
   constructor(...args) {
