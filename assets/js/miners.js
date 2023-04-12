@@ -16,10 +16,11 @@ const miners = [
     },
     {
         id: "miner3",
-        name: "Miner 3",
-        image: "256x256.png",
-        description: "The other thing Jake made in Microsoft Paint",
+        name: "Jerk Blerk",
+        image: "download.png",
+        description: "Kerng foo Pander",
         cost: "1e+5",
+        url: "https://www.youtube.com/watch?v=7BkxsdESz4g"
     },
     {
         id: "miner4",
