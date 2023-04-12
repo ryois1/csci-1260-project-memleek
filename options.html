@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mem.Leek</title>
+    <title>Options | Mem.Leek</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
     <link href="./assets/css/main.css" rel="stylesheet">
@@ -26,11 +26,11 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <span class="nav-link"><a class="btn btn-outline-info active"
+                        <span class="nav-link"><a href="/index.html" class="btn btn-outline-info"
                                 id="gameTabBtn">Game</a></span>
                     </li>
                     <li class="nav-item">
-                        <span class="nav-link"><a href="/options.html" class="btn btn-outline-info"
+                        <span class="nav-link"><a class="btn btn-outline-info active"
                                 id="optionsTabBtn">Options</a></span>
                     </li>
                     <li class="nav-item">
@@ -77,56 +77,6 @@
         </div>
 
         <!-- END Counters -->
-
-        <!-- Buy 10 Button -->
-        <div class="mx-auto">
-            <button class="btn btn-danger" type="button">Buy 10</button>
-                    <!---Sacrifice Button-->
-            <button class="btn btn-danger" id="sacrificeBtn" type="button">Sacrifice</button>
-        </div>
-
-
-        <!-- BEGIN Cards for Miners -->
-        <div id="page_content">
-
-            <div class="row text-center">
-                <h4>Miners</h4>
-            </div>
-
-
-
-            <div class="row" id="cards">
-                <div class="col">
-                    <div class="card-deck" id="miners"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- END Cards for Miners -->
-
-        <!-- BEGIN Cards for Developer Options -->
-
-        <div class="row text-center dev-opts">
-            <div class="col-12">
-                <h3>Developer Options</h3>
-            </div>
-            <div class="mx-auto"><button class="btn btn-outline-danger" type="button" id="resetButton"
-                    onclick="window.ResetState()">Reset Save</button></div>
-            <div class="col-12">
-                <div class="card bg-dark card-cheats">
-                    <div class="card-header bg-dark text-white">Cheats: Add Bytes</div>
-                    <div class="card-body bg-dark" id="cheatsAddBtns"></div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="card bg-dark card-cheats">
-                    <div class="card-header bg-dark text-white">Cheats: Remove Bytes</div>
-                    <div class="card-body bg-dark" id="cheatsRemoveBtns"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- END Cards for Developer Options -->
 
         <!-- BEGIN Save Key -->
 
@@ -237,7 +187,7 @@
         let cloudSyncSuccessfulSetup = false;
         let globalBytes = 10;
         let settings = {
-            notation: "",
+            notation: "scientific",
             gameTickSpeed: 1000,
             UITick: 100,
             cloudSyncSpeed: 10000,

@@ -24,10 +24,37 @@ function keypress(e) {
         case "8":
             BuyMiner("miner8");
             break;
+        case "s":
+            //if sacrifice button is shown, you can sacrifice
+            if (window.minerInstances[0].quantity > window.minerInstances[7].lastsacrificequantity) {
+                console.log(window.minerInstances[7].production);
+                window.minerInstances[7].Sacrifice(window.minerInstances);
+                console.log(window.minerInstances[7].production);
+            } 
+            else {
+                Toastify({
+                    text: "Not enough miners to sacrifice",
+                    duration: 3000,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                        background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
+                    }
+                }).showToast();
+                console.log("Not enough miners to sacrifice");
+                break;
+            }
+            break;
         default:
             break;
     }
 };
+
+$("#sacrificeBtn").click(function () {
+    window.minerInstances[7].Sacrifice(window.minerInstances);
+});
 
 // add event listener
 $(document).on("keypress", keypress);

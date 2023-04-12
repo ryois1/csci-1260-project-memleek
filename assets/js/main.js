@@ -17,7 +17,7 @@ let miner4 = new Miner4(4, 1, 1e+7, 0, 0);
 let miner5 = new Miner5(5, 1, 1e+10, 0, 0);
 let miner6 = new Miner6(6, 1, 1e+14, 0, 0);
 let miner7 = new Miner7(7, 1, 1e+19, 0, 0);
-let miner8 = new Miner8(8, 1, 1e+25, 0, 0);
+let miner8 = new Miner8(1, 0, 8, 1, 1e+25, 0, 0,);
 
 const minerInstances = [
     miner1,
@@ -47,11 +47,21 @@ function GameTick() {
     successfulTicks.push(miner7.genTick(miner6));
     successfulTicks.push(miner8.genTick(miner7));
 
+    if(miner1.quantity > miner8.lastsacrificequantity){
+        $("#sacrificeBtn").show();
+    }
+    else{
+        $("#sacrificeBtn").hide();
+    }
+    const lastSacrifice = miner8.lastsacrificequantity
     console.log(`Running Miners [1-8]: ${JSON.stringify(successfulTicks)}`);
     const data = {
         globalBytes: globalBytes,
-        minerInstances: minerInstances
+        minerInstances: minerInstances,
+        lastsacrificequantity: lastSacrifice,
+        lastSave: Date.now()
     }
+    
     save(data);
 }
 
@@ -81,6 +91,35 @@ function BuyMiner(miner) {
     }
 }
 
+function Buy10Miner(miner) {
+    try {
+        const target = eval(miner);
+        if (globalBytes >= target.cost * target.quantity) {
+            target.buyTen(); // Buy ten miners
+            updateCards(minerInstances);
+            const tooltip = bootstrap.Tooltip.getInstance(`#miner${target.id}-btn`);
+            tooltip.setContent({ '.tooltip-inner': `Bought: ${target.buyCount}` })
+        } else {
+            Toastify({
+                text: "Not enough bytes!",
+                duration: 1000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
+                }
+            }).showToast();
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+
+
 function ResetState() {
     localStorage.removeItem("savedata");
     localStorage.removeItem("key");
@@ -99,6 +138,7 @@ try {
             miner.buyCount = saveState.minerInstances[i].buyCount;
             miner.cost = saveState.minerInstances[i].cost;
         });
+        miner8.lastsacrificequantity = saveState.lastsacrificequantity;
     }
 } catch (e) {
     console.log(e);
@@ -136,17 +176,16 @@ setInterval(() => {
 }, settings.cloudSyncSpeed);
 
 
-// Draw the UI
-drawCards(miners, minerInstances);
-drawCheats();
-
-
 // Make the functions global
 window.BuyMiner = BuyMiner; // Make the BuyMiner function global
 window.ResetState = ResetState; // Make the ResetState function global
 window.AddBytes = AddBytes; // Make the AddBytes function global
 window.RemoveBytes = RemoveBytes; // Make the RemoveBytes function global
 window.minerInstances = minerInstances; // Make the minerInstances array global
+
+// Draw the UI
+drawCards(miners, minerInstances);
+drawCheats();
 
 
 // Initialize tooltips

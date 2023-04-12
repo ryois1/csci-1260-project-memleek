@@ -4,14 +4,14 @@ const miners = [
         name: "Crazed Pepa Pig",
         image: "1.png",
         description: "Bacon Pegga Pig",
-        cost: "10",
+        cost: 10,
     },
     {
         id: "miner2",
         name: "Sonichu",
         image: "sonichu.png",
         description: "The electric hedgehog pokemon",
-        cost: "1e+3",
+        cost: 1e+3,
         url: "https://www.youtube.com/@genosamuel2.1/videos"
     },
     {
@@ -19,14 +19,15 @@ const miners = [
         name: "Jerk Blerk",
         image: "download.png",
         description: "Kerng Foo Pander",
-        cost: "1e+5",
+        cost: 1e+5,
+        url: "https://www.youtube.com/watch?v=z4810dQmAaA"
     },
     {
         id: "miner4",
         name: "Cursed Patrick",
         image: "Patrick.png",
         description: "Not a Goofy Goober",
-        cost: "1e+7",
+        cost: 1e+7,
         url: "https://www.youtube.com/watch?v=EVR-6AfZ8gk"
     },
     {
@@ -34,7 +35,7 @@ const miners = [
         name: "Miner 5",
         image: "terraria.png",
         description: "...Yeahhhh...",
-        cost: "1e+10",
+        cost: 1e+10,
         url: "https://leekspin.com/"
     },
     {
@@ -42,7 +43,7 @@ const miners = [
         name: "Spooderman",
         image: "Spooderman2.png",
         description: "Not the hero we deserve, nor the hero we need, but the hero we get",
-        cost: "1e+14",
+        cost: 1e+14,
         url: "https://www.youtube.com/watch?v=f_Pcu6wTzoA"
     },
     {
@@ -50,7 +51,7 @@ const miners = [
         name: "William H. Rochelle",
         image: "will2.jpg",
         description: "Forever in our hearts, Our lord and savior, Our inspiration",
-        cost: "1e+19",
+        cost: 1e+19,
         url: "https://www.instagram.com/memory_leek"
     },
     {
@@ -58,7 +59,7 @@ const miners = [
         name: "Tarnoff Miner",
         image: "Tarnoff.jpeg",
         description: "The ultimate miner: Tarnoff",
-        cost: "1e+25",
+        cost: 1e+25,
         url: "https://www.youtube.com/@Intermation"
     },
 ];

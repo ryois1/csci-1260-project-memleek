@@ -32,15 +32,28 @@ class Miner {
     this.quantity++;
     this.buyCount++;
     // if the generator has been bought by a number divisible by 10 times,
-    // the price is increased by 150x
+    // the price is increased by ^1.5 and the production is doubled
     if (this.buyCount % 10 == 0) {
-      this.cost = this.cost * 150;
-      this.multiplier = this.multiplier * 2;
       this.production = this.production * 2;
+      this.cost = this.cost * 150;
+
     }
 
     console.log(`Current cost: ${this.cost}, New quantity: ${this.quantity}`);
   }
+
+
+  //buy 10 miners
+  buyTen(){
+    amount = 10 - this.quantity;
+    //increases quantity by one
+    this.quantity += amount;
+    this.production = this.production * 2;
+    this.cost = this.cost * 150;
+    globalBytes -= this.cost * amount;
+    this.buyCount += amount;
+  }
+
 }
 
 

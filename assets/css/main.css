@@ -124,6 +124,13 @@ body {
     justify-content: space-evenly !important;
 }
 
+.cannotBuy {
+    cursor: not-allowed;
+    background-color: rgba(0,0,0,0);
+    border: 1px solid #8B0000;
+    color: #8B0000;
+}
+
 .cannotBuy:hover {
     cursor: not-allowed;
     background-color: #8B0000;
@@ -232,7 +239,7 @@ label.fc-dark {
 }
 
 .navbar.bg-dark {
-    background-color: rgba(0, 0, 0, 0.4) !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
 }
 
 .game-logo {
