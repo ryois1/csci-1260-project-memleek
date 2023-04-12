@@ -45,7 +45,7 @@ function load() {
     return output;
 }
 
-async function loadFromServer(key) {
+async function loadFromServer(key, minerInstances) {
     $("#cloudSaveState").html(IconMap["connecting"]);
     let clientID = localStorage.getItem('clientID');
     // See if save state is locked to another client
@@ -69,12 +69,24 @@ async function loadFromServer(key) {
                     if (data.status == false) {
                         return;
                     }
-                    console.log(`Loading save state from server: ${JSON.stringify(data)}`);
+                    console.log(`Loading save state from server:`);
+                    console.log(data.state);
                     // Store the key in localStorage
                     
                     localStorage.setItem('savedata', data.state);
                     cloudSyncSuccessfulSetup = true;
-                    load(data.state);
+
+                    
+
+                    console.log(minerInstances);
+                    globalBytes = data.state.globalBytes;
+                    minerInstances.forEach(function (miner, i) {
+                        miner.id = data.state.minerInstances[i].id;
+                        miner.quantity = data.state.minerInstances[i].quantity;
+                        miner.buyCount = data.state.minerInstances[i].buyCount;
+                        miner.cost = data.state.minerInstances[i].cost;
+                    });
+
                     // Show toast
                     Toastify({
                         text: "Save state loaded!",

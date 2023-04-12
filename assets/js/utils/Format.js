@@ -6,14 +6,14 @@ const formatBytes = (bytes) => {
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'BB', 'NB', 'DB', 'CB', 'Infinity'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   const size = i < sizes.length ? sizes[i] : 'Infinity';
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(5)) + ' ' + size;
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + size;
 }
 
 const formatSize = (bytes) => {
   if (bytes === 0) return '0';
   const k = 1024;
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(5));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2));
 }
 
 const baseNotation = (bytes) => {

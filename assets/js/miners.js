@@ -8,10 +8,11 @@ const miners = [
     },
     {
         id: "miner2",
-        name: "Miner 2",
-        image: "256x256.png",
-        description: "One of Jake's Microsoft Paint things",
+        name: "Sonichu",
+        image: "sonichu.png",
+        description: "The electric hedgehog pokemon",
         cost: "1e+3",
+        url: "https://www.youtube.com/@genosamuel2.1/videos"
     },
     {
         id: "miner3",
@@ -26,6 +27,7 @@ const miners = [
         image: "Patrick.png",
         description: "Cursed Patrick",
         cost: "1e+7",
+        url: "https://www.youtube.com/watch?v=EVR-6AfZ8gk"
     },
     {
         id: "miner5",
@@ -33,6 +35,7 @@ const miners = [
         image: "terraria.png",
         description: "...Yeahhhh...",
         cost: "1e+10",
+        url: "https://leekspin.com/"
     },
     {
         id: "miner6",
@@ -40,13 +43,15 @@ const miners = [
         image: "Spooderman2.png",
         description: "Spooderman",
         cost: "1e+14",
+        url: "https://www.youtube.com/watch?v=f_Pcu6wTzoA"
     },
     {
         id: "miner7",
         name: "William H. Rochelle",
         image: "will2.jpg",
-        description: "Forever in our hearts",
+        description: "Forever in our hearts, Our lord and savior, Our inspiration",
         cost: "1e+19",
+        url: "https://www.instagram.com/memory_leek"
     },
     {
         id: "miner8",
@@ -54,6 +59,7 @@ const miners = [
         image: "Tarnoff.jpeg",
         description: "The ultimate miner: Tarnoff",
         cost: "1e+25",
+        url: "https://www.youtube.com/@Intermation"
     },
 ];
 

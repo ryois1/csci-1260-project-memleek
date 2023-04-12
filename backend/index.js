@@ -38,6 +38,9 @@ app.use(cors({
         else if (origin.includes("localhost")) {
             callback(null, true);
         }
+        else if (origin.includes("127.0.0.1")) {
+            callback(null, true);
+        }
         else if (origin.includes("ryois.me")) {
             callback(null, true);
         }

@@ -5,7 +5,6 @@ import { formatBytes, updateBytes } from './utils/Format.js';
 import { miners } from './miners.js';
 import { save, load, testLS, saveToServer, loadFromServer } from './utils/SaveState.js';
 import { drawCards, updateCards, drawCheats } from './utils/DrawUI.js';
-import { validateJSONPromise } from './utils/Validate.js';
 
 testLS();
 
@@ -92,20 +91,19 @@ function ResetState() {
 // Load the save state
 try {
     const saveState = load();
-    validateJSONPromise(saveState).then((result) => {
-        if (result) {
-            globalBytes = saveState.globalBytes;
-            minerInstances.forEach(function (miner, i) {
-                miner.id = saveState.minerInstances[i].id;
-                miner.quantity = saveState.minerInstances[i].quantity;
-                miner.buyCount = saveState.minerInstances[i].buyCount;
-                miner.cost = saveState.minerInstances[i].cost;
-            });
-        }
-    });
+    if (saveState) {
+        console.log(saveState);
+        globalBytes = saveState.globalBytes;
+        minerInstances.forEach(function (miner, i) {
+            miner.id = saveState.minerInstances[i].id;
+            miner.quantity = saveState.minerInstances[i].quantity;
+            miner.buyCount = saveState.minerInstances[i].buyCount;
+            miner.cost = saveState.minerInstances[i].cost;
+        });
+    }
 } catch (e) {
     console.log(e);
-    loadFromServer(saveKey);
+    loadFromServer(saveKey, minerInstances);
 }
 
 
@@ -149,6 +147,7 @@ window.BuyMiner = BuyMiner; // Make the BuyMiner function global
 window.ResetState = ResetState; // Make the ResetState function global
 window.AddBytes = AddBytes; // Make the AddBytes function global
 window.RemoveBytes = RemoveBytes; // Make the RemoveBytes function global
+window.minerInstances = minerInstances; // Make the minerInstances array global
 
 
 // Initialize tooltips
