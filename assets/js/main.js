@@ -3,7 +3,7 @@
 import { Miner1, Miner2, Miner3, Miner4, Miner5, Miner6, Miner7, Miner8 } from './classes/miners/index.js';
 import { formatBytes, updateBytes } from './utils/Format.js';
 import { miners } from './miners.js';
-import { save, load, testLS } from './utils/SaveState.js';
+import { save, load, testLS, saveToServer } from './utils/SaveState.js';
 
 testLS();
 
@@ -32,6 +32,9 @@ const minerInstances = [
 globalBytes = 10;
 
 function GameTick() {
+    if(!gameInitialized) {
+        return;
+    }
     const successfulTicks = [];
 
     successfulTicks.push(miner1.genTick());
@@ -80,7 +83,7 @@ function BuyMiner(miner) {
 }
 
 function ResetState() {
-    localStorage.clear();
+    localStorage.removeItem("saveState");
     location.reload();
 }
 
@@ -116,6 +119,10 @@ setInterval(() => {
     updateBytes(globalBytes);
     drawCards();
 }, UITick);
+
+setInterval(() => {
+    saveToServer(saveKey);
+}, cloudSyncSpeed);
 
 miners.forEach(function (miner, i) {
     $("#miners").append(`<div class="card text-white bg-dark miner" style="width: 256px;">
@@ -187,3 +194,37 @@ function keypress(e) {
 
 // add event listener
 $(document).on("keypress", keypress);
+
+// Connect to WebSocket with the server via regular WS
+const socket = new WebSocket(`ws://localhost:3000`);
+
+// When the socket is opened, send the save key and client ID
+socket.onopen = function (e) {
+    socket.send(JSON.stringify({
+        type: "auth",
+        payload: {
+            saveKey: saveKey,
+            clientID: localStorage.getItem("clientID")
+        }
+    }));
+
+};
+
+// When the socket receives a message, parse it and handle it
+socket.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    switch (data.type) {
+        case "auth":
+            console.log(`Authenticated with server!`);
+            break;
+        case "heartbeat":
+            if(data.message.status === "SYN") {
+            socket.send(JSON.stringify({ type: "heartbeat", payload: { status: "SYN-ACK", clientID: localStorage.getItem("clientID"), key: saveKey } }));
+            }
+            else if (data.message.status === "SYN-ACK") {
+                console.log("Heartbeat ACK'd");
+            }
+        default:
+            break;
+    }
+};
