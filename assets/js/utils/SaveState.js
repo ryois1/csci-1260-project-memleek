@@ -88,10 +88,10 @@ async function loadFromServer(key, minerInstances) {
                         miner.production = dataState.minerInstances[i].production;
                         minerInstances[7].sacrificemultiplier = dataState.minerInstances[7].sacrificemultiplier;
                         minerInstances[7].lastsacrificequantity = dataState.minerInstances[7].lastsacrificequantity;
-                        Prestige.globalCompressionPoints = dataState.globalCompressionPoints;
-                        Prestige.globalCompressionLevel = dataState.globalCompressionLevel;
-                        Prestige.globalCompressionCost = dataState.globalCompressionCost;
-                        Prestige.globalCompressionMultiplier = dataState.globalCompressionMultiplier;
+                        // Prestige.globalCompressionPoints = dataState.globalCompressionPoints;
+                        // Prestige.globalCompressionLevel = dataState.globalCompressionLevel;
+                        // Prestige.globalCompressionCost = dataState.globalCompressionCost;
+                        // Prestige.globalCompressionMultiplier = dataState.globalCompressionMultiplier;
                     });
 
                     // Show toast

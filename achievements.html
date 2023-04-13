@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compress | Mem.Leek</title>
+    <title>Achievements | Mem.Leek</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
     <link href="./assets/css/main.css" rel="stylesheet">
@@ -46,12 +46,9 @@
 
     <div class="container-fluid" id="main_content">
 
-        <!-- BEGIN Game Logo & Alerts -->
+        <!-- BEGIN Alerts -->
 
         <div class="row text-center">
-            <div class="col-12">
-                <img src="./assets/images/GameLogo_crop.png" class="game-logo" alt="Game Logo">
-            </div>
             <div class="col-12">
                 <div class="alert alert-danger hiddenAlert" role="alert" id="alert">
                     Your save key is being used by another client; your game is locked!
@@ -59,7 +56,7 @@
             </div>
         </div>
 
-        <!-- END Game Logo & Alerts -->
+        <!-- END Alerts -->
 
         <!-- BEGIN Counters -->
 
@@ -76,37 +73,10 @@
         <!-- BEGIN Compression header -->
         <div class="row">
             <div class="col-12 text-center">
-                <h2>Compression</h2>
-            </div>
-
-            <!--begin compression information-->
-            <div class="col-12 text-center">
-                <h4>Compression is the first Prestige Layer in this game, its here to boost your multipliers and make
-                    the game possible to beat!</h4>
-                <!--end compression information-->
-
-                <!--begin compression upgrade buttons-->
-                <div class="text-center text-white"> increase the buy 10 multiplier(x2 -> x2.5) ${} <div>
-                        <div class="btn btn-primary" id="compUpgrade1" onclick="compUpgrade1()">Compression Upgrade 1
-                        </div>
-                        <div class="text-center text-white"> increase the Sacrifice Multiplier (Log base 1000 -> log
-                            base 900) ${} <div></div>
-                            <div class="btn btn-primary" id="compUpgrade2" onclick="compUpgrade2()">Compression Upgrade
-                                2</div>
-                            <!--end of compression upgrades-->
-
-                            <!--begin compression algorithm buttons-->
-
-
-
-
-
-                        </div>
-                    </div>
-                </div>
+                <h2>Achievements</h2>
             </div>
         </div>
-        <!-- BEGIN Save Key -->
+
         <div class="bottom-content">
             <div class="row">
                 <div class="col-12 text-center">
@@ -126,10 +96,10 @@
                 </div>
             </div>
         </div>
+
+        <!-- END Save Key -->
+
     </div>
-
-    <!-- END Save Key -->
-
     <!-- BEGIN Scripts -->
     <script>
         let gameInitialized = false;

@@ -1,3 +1,4 @@
+
 function keypress(e) {
     switch (e.key) {
         case "1":
@@ -81,6 +82,9 @@ $("#buyAllMaxBtn").click(function () {
     MI.slice().reverse().forEach((miner) => {
         miner.buyMax();
     });
+});
+$("#boostBtn").click(function () {
+    window.boost.buyBoost();
 });
 
 // add event listener

@@ -5,8 +5,10 @@ import { formatBytes, updateBytes, smoothUpdateMainDisplay } from './utils/Forma
 import { miners } from './m.js';
 import { save, load, testLS, saveToServer, loadFromServer } from './utils/SaveState.js';
 import { drawCards, updateCards, drawCheats } from './utils/DrawUI.js';
+import { Boosts } from "./classes/prestiges/boosts.js";
 
 testLS();
+
 
 // Create the miners
 
@@ -31,6 +33,8 @@ const minerInstances = [
 ];
 
 globalBytes = 10;
+
+const boost = new Boosts(1e+19, 0, 1, 0);
 
 // Store the past 2 bytes
 let bytesHistory = [];
@@ -66,10 +70,10 @@ function GameTick() {
     successfulTicks.push(miner7.genTick(miner6));
     successfulTicks.push(miner8.genTick(miner7));
 
-    if(miner1.quantity > miner8.lastsacrificequantity && miner8.quantity != 0){
+    if (miner1.quantity > miner8.lastsacrificequantity && miner8.quantity != 0) {
         $("#sacrificeBtn").show();
     }
-    else{
+    else {
         $("#sacrificeBtn").hide();
     }
     const lastSacrifice = miner8.lastsacrificequantity
@@ -80,7 +84,13 @@ function GameTick() {
         lastsacrificequantity: lastSacrifice,
         lastSave: Date.now()
     }
-    
+    //show/hide boost button
+    if (globalBytes >= 1e+19 || miner8.quantity > 0) {
+        $("#boostBtn").show();
+    }
+    else {
+        $("#boostBtn").hide();
+    }
     save(data);
 }
 
@@ -161,6 +171,10 @@ try {
             miner.production = saveState.minerInstances[i].production;
         });
         miner8.lastsacrificequantity = saveState.lastsacrificequantity;
+        Boosts.quantity = saveState.boostsquantity;
+        Boosts.cost = saveState.boostscost;
+        Boosts.production = saveState.boostsproduction;
+        Boosts.buyCount = saveState.boostsbuyCount;
     }
 } catch (e) {
     console.log(e);
@@ -206,6 +220,7 @@ window.ResetState = ResetState; // Make the ResetState function global
 window.AddBytes = AddBytes; // Make the AddBytes function global
 window.RemoveBytes = RemoveBytes; // Make the RemoveBytes function global
 window.minerInstances = minerInstances; // Make the minerInstances array global
+window.boost = boost;
 
 // Draw the UI
 drawCards(miners, minerInstances);
