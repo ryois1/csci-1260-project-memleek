@@ -86,7 +86,7 @@ async function loadFromServer(key, minerInstances) {
                         miner.buyCount = dataState.minerInstances[i].buyCount;
                         miner.cost = dataState.minerInstances[i].cost;
                         miner.production = dataState.minerInstances[i].production;
-                        m8.sacrificemultiplier = dataState.minerInstances[7].sacrificemultiplier;
+                        minerInstances[7].sacrificemultiplier = dataState.minerInstances[7].sacrificemultiplier;
                         Prestige.globalCompressionPoints = dataState.globalCompressionPoints;
                         Prestige.globalCompressionLevel = dataState.globalCompressionLevel;
                         Prestige.globalCompressionCost = dataState.globalCompressionCost;
