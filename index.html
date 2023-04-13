@@ -242,12 +242,14 @@
     <!-- END Modals -->
 
     <!-- BEGIN Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/break_infinity.js@2"></script>
+
     <script>
         let gameInitialized = false;
         let gameLocked = false;
         let saveKey = null;
         let cloudSyncSuccessfulSetup = false;
-        let globalBytes = 10;
+        let globalBytes = new Decimal(10);
         let settings = {
             notation: "",
             gameTickSpeed: 1000,
@@ -264,7 +266,6 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/toastify-js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/e2f5314e87.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/break_infinity.js@2"></script>
 
     <!-- Game Scripts -->
     <script type="module" src="./assets/js/main.js"></script>

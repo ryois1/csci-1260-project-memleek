@@ -39,10 +39,10 @@ const updateBytes = (bytes) => {
   let bytesPerSecond = window.minerInstances[0].production * window.minerInstances[0].quantity;
 
   if (bytes > 1e+27) {
-    $("#bytes").html(bytes.toExponential(2).replace('+', ''));
+    $("#bytes").html(bytes);
     $("#bytesExt").html('Bytes');
   } else {
-    $("#bytes").html(formatSize(bytes));
+    $("#bytes").html(bytes);
     $("#bytesExt").html(baseNotation(bytes));
   }
 

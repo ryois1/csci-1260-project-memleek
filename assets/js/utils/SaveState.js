@@ -82,16 +82,16 @@ async function loadFromServer(key, minerInstances) {
                     globalBytes = dataState.globalBytes;
                     minerInstances.forEach(function (miner, i) {
                         miner.id = dataState.minerInstances[i].id;
-                        miner.quantity = dataState.minerInstances[i].quantity;
-                        miner.buyCount = dataState.minerInstances[i].buyCount;
-                        miner.cost = dataState.minerInstances[i].cost;
-                        miner.production = dataState.minerInstances[i].production;
-                        minerInstances[7].sacrificemultiplier = dataState.minerInstances[7].sacrificemultiplier;
-                        minerInstances[7].lastsacrificequantity = dataState.minerInstances[7].lastsacrificequantity;
-                        Prestige.globalCompressionPoints = dataState.globalCompressionPoints;
-                        Prestige.globalCompressionLevel = dataState.globalCompressionLevel;
-                        Prestige.globalCompressionCost = dataState.globalCompressionCost;
-                        Prestige.globalCompressionMultiplier = dataState.globalCompressionMultiplier;
+                        miner.quantity = new Decimal(dataState.minerInstances[i].quantity);
+                        miner.buyCount = new Decimal(dataState.minerInstances[i].buyCount);
+                        miner.cost = new Decimal(dataState.minerInstances[i].cost);
+                        miner.production = new Decimal(dataState.minerInstances[i].production);
+                        minerInstances[7].sacrificemultiplier = new Decimal(dataState.minerInstances[7].sacrificemultiplier);
+                        minerInstances[7].lastsacrificequantity = new Decimal(dataState.minerInstances[7].lastsacrificequantity);
+                        // Prestige.globalCompressionPoints = dataState.globalCompressionPoints;
+                        // Prestige.globalCompressionLevel = dataState.globalCompressionLevel;
+                        // Prestige.globalCompressionCost = dataState.globalCompressionCost;
+                        // Prestige.globalCompressionMultiplier = dataState.globalCompressionMultiplier;
                     });
 
                     // Show toast

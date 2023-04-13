@@ -3,28 +3,24 @@ class Miner {
 
   id;
   //ID 1-8 of miners
-  production;
+  production = new Decimal();
   //base production of miner
-  cost;
+  cost = new Decimal();
   //base cost of miner
-  quantity;
+  quantity = new Decimal();
   //number of miners
-  buyCount;
+  buyCount = new Decimal();
   //number of miners bought
 
   constructor(_id, _production, _cost, _quantity, _buyCount) {
     this.id = _id;
-    this.production = _production;
-    this.cost = _cost;
-    this.quantity = _quantity;
-    this.buyCount = _buyCount;
+    this.production = new Decimal(_production);
+    this.cost = new Decimal(_cost);
+    this.quantity = new Decimal(_quantity);
+    this.buyCount = new Decimal(_buyCount);
   }
   next() {
     return this._id++;
-  }
-
-  tick() {
-
   }
   buy() {
     globalBytes -= this.cost;
@@ -51,7 +47,7 @@ class Miner {
   //buy 10 miners
   buyTen() {
     let count = 0;
-    
+
     let mod = this.buyCount % 10;
 
     if (mod != 0) {
@@ -81,18 +77,13 @@ class Miner {
       }
     }
   }
-  Boost(minerInstances){
+  Boost(minerInstances) {
     //boosts the production of all miners by the amount of boosters owned with a x2 multiplier
     for (let i = 0; i <= 7; i++) {
       minerInstances[i].production *= 2;
+    }
   }
 }
-}
-
-
-
-
-
 
 
 export { Miner };

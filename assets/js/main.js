@@ -1,6 +1,7 @@
 // Main Page
 // Import the classes
 import { Miner1, Miner2, Miner3, Miner4, Miner5, Miner6, Miner7, Miner8 } from './classes/m/index.js';
+import { Prestige } from './classes/prestiges/prestige.js';
 import { formatBytes, updateBytes, smoothUpdateMainDisplay } from './utils/Format.js';
 import { miners } from './m.js';
 import { save, load, testLS, saveToServer, loadFromServer } from './utils/SaveState.js';
@@ -30,7 +31,7 @@ const minerInstances = [
     miner8
 ];
 
-globalBytes = 10;
+globalBytes = new Decimal(10);
 
 // Store the past 2 bytes
 let bytesHistory = [];
@@ -143,7 +144,7 @@ function ResetState() {
     localStorage.removeItem("savedata");
     localStorage.removeItem("key");
     location.reload();
-    globalBytes = 10;
+    globalBytes = new Decimal(10);
     localStorage.removeItem("savedata");
     localStorage.removeItem("key");
 }
@@ -152,15 +153,15 @@ function ResetState() {
 try {
     const saveState = load();
     if (saveState) {
-        globalBytes = saveState.globalBytes;
+        globalBytes = new Decimal(saveState.globalBytes);
         minerInstances.forEach(function (miner, i) {
             miner.id = saveState.minerInstances[i].id;
-            miner.quantity = saveState.minerInstances[i].quantity;
-            miner.buyCount = saveState.minerInstances[i].buyCount;
-            miner.cost = saveState.minerInstances[i].cost;
-            miner.production = saveState.minerInstances[i].production;
+            miner.quantity = new Decimal(saveState.minerInstances[i].quantity);
+            miner.buyCount = new Decimal(saveState.minerInstances[i].buyCount);
+            miner.cost = new Decimal(saveState.minerInstances[i].cost);
+            miner.production = new Decimal(saveState.minerInstances[i].production);
         });
-        miner8.lastsacrificequantity = saveState.lastsacrificequantity;
+        miner8.lastsacrificequantity = new Decimal(saveState.lastsacrificequantity);
     }
 } catch (e) {
     console.log(e);
@@ -174,7 +175,7 @@ function AddBytes(bytes) {
 
 function RemoveBytes(bytes) {
     if (globalBytes - bytes < 0) {
-        globalBytes = 0;
+        globalBytes = new Decimal(0);
         return;
     }
     globalBytes -= bytes;

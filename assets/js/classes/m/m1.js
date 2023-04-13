@@ -6,8 +6,11 @@ class Miner1 extends Miner {
     console.log("New Miner1 created");
   }
 
-  genTick() {
-    let bytecount = globalBytes + (this.quantity * this.production);
+  async genTick() {
+    let bytecount = new Decimal();
+    bytecount.add(globalBytes);
+    bytecount.add(this.production * this.multiplier);
+    console.log("bytecount: " + bytecount)
     globalBytes = bytecount;
     return true;
   }

@@ -3,14 +3,14 @@ import { Miner7 } from './m7.js';
 
 class Miner8 extends Miner {
 
-  sacrificemult;
+  sacrificemult = new Decimal(1);
 
-  lastsacrificequantity;
+  lastsacrificequantity = new Decimal(0);
 
   constructor(_sacrificemult, _lastsacrificequantity, ...args) {
     super(...args);
-    this.sacrificemult = _sacrificemult;
-    this.lastsacrificequantity = _lastsacrificequantity;
+    this.sacrificemult = new Decimal(_sacrificemult);
+    this.lastsacrificequantity = new Decimal(_lastsacrificequantity);
     console.log("New Miner8 created");
   }
 
@@ -33,7 +33,7 @@ class Miner8 extends Miner {
     console.log(minerInstances);
 
 
-    let sacrificemult = this.sacrificemult + (Math.log(minerInstances[0].quantity - this.lastsacrificequantity)); //formula for increasing sacrifice multiplier based on log base 1000
+    let sacrificemult = new Decimal(this.sacrificemult + (Math.log(minerInstances[0].quantity - this.lastsacrificequantity))); //formula for increasing sacrifice multiplier based on log base 1000
 
     minerInstances.forEach(function (miner, i) {
       if (i < 7) {
