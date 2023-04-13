@@ -1,5 +1,5 @@
-import { Miner } from '../miner.js';
-import { Miner1 } from './miner1.js';
+import { Miner } from '../m.js';
+import { Miner1 } from './m1.js';
 class Miner2 extends Miner {
 
   constructor(...args) {

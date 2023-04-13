@@ -20,6 +20,7 @@ body {
     -z-animation: rainbow 18s ease infinite;
     -o-animation: rainbow 18s ease infinite;
     animation: rainbow 18s ease infinite;
+    
 }
 
 @-webkit-keyframes rainbow {
@@ -122,6 +123,9 @@ body {
 
 .navbar {
     justify-content: space-evenly !important;
+    padding-left: 50px !important;
+    border-right-width: 50px !important;
+    padding-right: 50px !important;
 }
 
 .cannotBuy {
@@ -243,7 +247,8 @@ label.fc-dark {
 }
 
 .game-logo {
-    max-width: 50%;
+    max-height: 48px;
+    margin: 0 auto;
     height: auto;
     object-fit: contain;
 }

@@ -47,13 +47,40 @@ function keypress(e) {
                 break;
             }
             break;
+        case "m":
+            //buy max
+            // for each miner, buy max starting at miner 8 to miner 1
+            const MI = window.minerInstances;
+            MI.slice().reverse().forEach((miner) => {
+                miner.buyMax();
+            });
+
+            break;
+        case "c":
+            //compress
+            if(globalBytes >= 1e+49){
+                Compress();
+            }
+            else{
+                console.log("Not enough bytes to compress");
+                return;
+            }
         default:
             break;
     }
 };
 
+
 $("#sacrificeBtn").click(function () {
     window.minerInstances[7].Sacrifice(window.minerInstances);
+});
+
+$("#buyAllMaxBtn").click(function () {
+    // for each miner, buy max starting at miner 8 to miner 1
+    const MI = window.minerInstances;
+    MI.slice().reverse().forEach((miner) => {
+        miner.buyMax();
+    });
 });
 
 // add event listener
@@ -72,7 +99,6 @@ channel.addEventListener('message', (msg) => {
         gameInitialized = false; // Prevent the game from initializing
         $("#cloudSaveState").html("Locked");
         $("#cards").addClass("locked");
-        $("#resetButton").addClass("locked");
         $("#alert").addClass("visibleAlert");
     }
 });

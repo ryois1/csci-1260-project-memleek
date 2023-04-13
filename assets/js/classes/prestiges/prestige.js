@@ -7,7 +7,7 @@ class Prestige{
     // id of the prestige upgrades that will impact the multiplier
     production;
     // production of the compressors
-    quantity;
+    compressQuantity;
     // quantity of the compressors
     cost;
     // cost of the compressors
@@ -17,20 +17,22 @@ class Prestige{
     // amount of points a player has earned in this prestige layer
     globalCompressionPoints = 0;
     // amount of points a player has available to spend
+    broken;
 
-    constructor(id, production, quantity, cost){
+    constructor(id, production, _compressQuantity, cost){
         this.id = id;
         this.production = production;
-        this.quantity = quantity;
+        this.compressQuantity = _compressQuantity;
         this.cost = cost;
     }
     Compress(){
-        if(/*some stuff to check if the player can compress for now set to just always be allowed*/ true){
+        if(globalBytes >= 1.0e+49 || this.broken == true){
             this.globalCompressionPoints += this.compressionPointsEarned;
             this.compressionPointsEarned = 0;
             return this.globalCompressionPoints;
         }
         else{
+            return;
             //  user doesnt meet the requirements to compress
         }
     }
@@ -38,6 +40,10 @@ class Prestige{
 
 
     EarnCompressionPoints(){
+        this.compressionPointsEarned += Math.ceil(Math.log10(Math.log10(globalBytes)));
+        //this is a ceiling function of the log base 100 of total bytes produced, being the amount of compression points earned in the compression
+
+        return this.compressionPointsEarned;
 
 
     }

@@ -1,8 +1,8 @@
 // Main Page
 // Import the classes
-import { Miner1, Miner2, Miner3, Miner4, Miner5, Miner6, Miner7, Miner8 } from './classes/miners/index.js';
-import { formatBytes, updateBytes } from './utils/Format.js';
-import { miners } from './miners.js';
+import { Miner1, Miner2, Miner3, Miner4, Miner5, Miner6, Miner7, Miner8 } from './classes/m/index.js';
+import { formatBytes, updateBytes, smoothUpdateMainDisplay } from './utils/Format.js';
+import { miners } from './m.js';
 import { save, load, testLS, saveToServer, loadFromServer } from './utils/SaveState.js';
 import { drawCards, updateCards, drawCheats } from './utils/DrawUI.js';
 
@@ -32,6 +32,25 @@ const minerInstances = [
 
 globalBytes = 10;
 
+// Store the past 2 bytes
+let bytesHistory = [];
+
+function getFirstByte() {
+    return bytesHistory[0];
+}
+
+function getLastByte() {
+    return bytesHistory[bytesHistory.length - 1];
+}
+
+function storeByte(bytes) {
+    bytesHistory.push(bytes);
+    // remove 
+    if (bytesHistory.length > 2) {
+        bytesHistory.shift();
+    }
+}
+
 function GameTick() {
     if (!gameInitialized) {
         return;
@@ -47,7 +66,7 @@ function GameTick() {
     successfulTicks.push(miner7.genTick(miner6));
     successfulTicks.push(miner8.genTick(miner7));
 
-    if(miner1.quantity > miner8.lastsacrificequantity){
+    if(miner1.quantity > miner8.lastsacrificequantity && miner8.quantity != 0){
         $("#sacrificeBtn").show();
     }
     else{
@@ -125,6 +144,8 @@ function ResetState() {
     localStorage.removeItem("key");
     location.reload();
     globalBytes = 10;
+    localStorage.removeItem("savedata");
+    localStorage.removeItem("key");
 }
 
 // Load the save state
@@ -137,6 +158,7 @@ try {
             miner.quantity = saveState.minerInstances[i].quantity;
             miner.buyCount = saveState.minerInstances[i].buyCount;
             miner.cost = saveState.minerInstances[i].cost;
+            miner.production = saveState.minerInstances[i].production;
         });
         miner8.lastsacrificequantity = saveState.lastsacrificequantity;
     }
@@ -166,6 +188,8 @@ setInterval(GameTick, settings.gameTickSpeed);
 // Update the UI based on the UITick (default: 100ms)
 setInterval(() => {
     updateBytes(globalBytes);
+    storeByte(globalBytes);
+    // smoothUpdateMainDisplay(globalBytes, getFirstByte(), 30);
     updateCards(minerInstances);
 }, settings.UITick);
 

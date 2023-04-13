@@ -55,7 +55,6 @@ async function loadFromServer(key, minerInstances) {
             gameLocked = true;
             $("#cloudSaveState").html(IconMap["cloud_locked"]);
             $("#cards").addClass("locked");
-            $("#resetButton").addClass("locked");
             $("#alert").addClass("visibleAlert");
             return;
         } else {

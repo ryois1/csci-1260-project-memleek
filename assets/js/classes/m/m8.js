@@ -1,5 +1,5 @@
-import { Miner } from '../miner.js';
-import { Miner7 } from './miner7.js';
+import { Miner } from '../m.js';
+import { Miner7 } from './m7.js';
 
 class Miner8 extends Miner {
 

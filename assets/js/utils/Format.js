@@ -36,30 +36,33 @@ const baseNotation = (bytes) => {
 
 
 const updateBytes = (bytes) => {
+  let bytesPerSecond = window.minerInstances[0].production * window.minerInstances[0].quantity;
 
-
-  if(bytes > 1e+27){
-
-
-            let bytesPerSecond = window.minerInstances[0].production * window.minerInstances[0].quantity;
-            $("#bytes").html(bytes.toExponential(2).replace('+', ''));
-            $("#bytesExt").html('Bytes');
-            $("#bytesPerSec").html(bytesPerSecond.toExponential(2).replace('+', '') + ' Bytes/s');
-
-            // Change page title
-            document.title = `${formatBytes(bytes)} | Mem.Leek`;
-
-
-  }else{
-      
-              let bytesPerSecond = window.minerInstances[0].production * window.minerInstances[0].quantity;
-              $("#bytes").html(formatSize(bytes));
-              $("#bytesExt").html(baseNotation(bytes));
-              $("#bytesPerSec").html(formatBytesPerS(bytesPerSecond));
-  
-              // Change page title
-              document.title = `${formatBytes(bytes)} | Mem.Leek`;
+  if (bytes > 1e+27) {
+    $("#bytes").html(bytes.toExponential(2).replace('+', ''));
+    $("#bytesExt").html('Bytes');
+  } else {
+    $("#bytes").html(formatSize(bytes));
+    $("#bytesExt").html(baseNotation(bytes));
   }
+
+  $("#bytesPerSec").html(formatBytesPerS(bytesPerSecond));
+  document.title = `${formatBytes(bytes)} | Mem.Leek`;
 }
 
-export { formatBytes, updateBytes };
+
+
+function smoothUpdateMainDisplay(oldValue, newValue, duration) {
+  let startTimestamp = null;
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+    updateBytes(Math.floor(progress * (newValue - oldValue) + oldValue));
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    }
+  };
+  window.requestAnimationFrame(step);
+}
+
+export { formatBytes, updateBytes, smoothUpdateMainDisplay };

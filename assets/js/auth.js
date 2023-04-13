@@ -58,7 +58,7 @@ $(document).ready(async function () {
         $('#saveKey').html(`<code>${localStorage.getItem('key')}</code>`);
 
         // Load save state from server
-        loadFromServer(saveKey, minerInstances);
+        loadFromServer(saveKey, window.minerInstances);
 
         gameInitialized = true;
     }

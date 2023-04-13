@@ -1,4 +1,4 @@
-import { Miner } from '../miner.js';
+import { Miner } from '../m.js';
 class Miner1 extends Miner {
 
   constructor(...args) {
