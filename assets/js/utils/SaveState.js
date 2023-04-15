@@ -1,14 +1,21 @@
 import { IconMap } from "./Icons.js";
+import { validateState, validateStateJSON } from "./ValidateState.js";
 
 function save(data) {
     $("#localSaveState").html(IconMap["saving"]);
-    localStorage.setItem("savedata", JSON.stringify(data));
-    // Wait 1 second before changing the icon back
-    setTimeout(function () {
-        $("#localSaveState").html(IconMap["saved"]);
-    }, 1000);
+    if(validateState(JSON.stringify(data))){
+        localStorage.setItem("savedata", JSON.stringify(data));
+        // Wait 1 second before changing the icon back
+        setTimeout(function () {
+            $("#localSaveState").html(IconMap["saved"]);
+        }, 1000);
+    } else {
+        console.log("Error saving local save state!");
+        return;
+    }
 }
 
+/*
 function load() {
     $("#localSaveState").html(IconMap["loading"]);
     const data = localStorage.getItem("savedata");
@@ -42,6 +49,48 @@ function load() {
 
     }
     return output;
+}*/
+
+function load() {
+    $("#localSaveState").html(IconMap["loading"]);
+    const data = localStorage.getItem("savedata");
+    if(validateState(data)){
+        let output;
+        try {
+            output = JSON.parse(data);
+        } catch (e) {
+            console.log("Error parsing save data!");
+            // Show toast
+            Toastify({
+                text: "Error parsing local save data!",
+                duration: 3000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
+                }
+            }).showToast();
+
+            // Clear the save data
+            localStorage.removeItem("savedata");
+
+            // Try to load from server
+
+            loadFromServer(localStorage.getItem('key'));
+            
+        }
+        return output;
+    } else {
+        console.log("Error loading local save state! Trying to load from server...");
+        try {
+            loadFromServer(localStorage.getItem('key'));
+        } catch (e) {
+            console.log("Error loading from server!");
+        }
+        return;
+    }
 }
 
 async function loadFromServer(key, minerInstances) {
@@ -76,12 +125,17 @@ async function loadFromServer(key, minerInstances) {
                     const currentLocalSave = localStorage.getItem('savedata');
 
                     if (currentLocalSave != null) {
-                        const currentLocalSaveState = JSON.parse(currentLocalSave);
+                        if(validateState(currentLocalSave)){
+                            const currentLocalSaveState = JSON.parse(currentLocalSave);
+                            
                         if (currentLocalSaveState.lastSave > dataState.lastSave) {
                             console.log("Local save state is newer than server save state!");
                             console.log("Saving local save state to server...");
                             saveToServer(currentLocalSaveState, minerInstances);
                             return;
+                        }
+                        } else {
+                            console.log("Error parsing local save state!");
                         }
                     }
                     // Store the key in localStorage
