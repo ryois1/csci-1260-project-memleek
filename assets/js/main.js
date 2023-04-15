@@ -1,6 +1,7 @@
 // Main Page
 // Import the classes
 import { Miner1, Miner2, Miner3, Miner4, Miner5, Miner6, Miner7, Miner8 } from './classes/m/index.js';
+// import { Compressor1, Compressor2, Compressor3, Compressor4, Compressor5, Compressor6, Compressor7, Compressor8 } from './classes/prestiges/compressors/index.js';
 import { formatBytes, updateBytes, smoothUpdateMainDisplay } from './utils/Format.js';
 import { miners } from './m.js';
 import { save, load, testLS, saveToServer, loadFromServer } from './utils/SaveState.js';
@@ -32,28 +33,7 @@ const minerInstances = [
     miner8
 ];
 
-globalBytes = 10;
-
 const boost = new Boosts(1e+19, 0, 1, 0);
-
-// Store the past 2 bytes
-let bytesHistory = [];
-
-function getFirstByte() {
-    return bytesHistory[0];
-}
-
-function getLastByte() {
-    return bytesHistory[bytesHistory.length - 1];
-}
-
-function storeByte(bytes) {
-    bytesHistory.push(bytes);
-    // remove 
-    if (bytesHistory.length > 2) {
-        bytesHistory.shift();
-    }
-}
 
 function GameTick() {
     if (!gameInitialized) {
@@ -147,8 +127,6 @@ function Buy10Miner(miner) {
 }
 
 
-
-
 function ResetState() {
     localStorage.removeItem("savedata");
     localStorage.removeItem("key");
@@ -202,8 +180,6 @@ setInterval(GameTick, settings.gameTickSpeed);
 // Update the UI based on the UITick (default: 100ms)
 setInterval(() => {
     updateBytes(globalBytes);
-    storeByte(globalBytes);
-    // smoothUpdateMainDisplay(globalBytes, getFirstByte(), 30);
     updateCards(minerInstances);
 }, settings.UITick);
 

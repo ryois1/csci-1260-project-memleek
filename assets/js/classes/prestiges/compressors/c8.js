@@ -1,7 +1,6 @@
-import { compressors } from "./compressors";
-import { Compressor7 } from "./c1";
+import { Compressor } from "./compressors.js";
 
-class Compressor8 extends compressors {
+class Compressor8 extends Compressor {
 
     constructor(...args) {
     super(...args);
@@ -9,10 +8,10 @@ class Compressor8 extends compressors {
   
     }
   
-    genTick(Compressor8){  
+    genTick(compressor7){  
       if (this.quantity > 0){
         var NewCompressorQuantity7quantity = this.quantity * this.production;
-        Compressor7.quantity = Compressor7.quantity + NewCompressor7quantity;
+        compressor7.quantity = compressor7.quantity + NewCompressorQuantity7quantity;
         return true;
       }
       else{

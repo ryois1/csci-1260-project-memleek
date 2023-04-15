@@ -1,23 +1,22 @@
-import { compressors } from "./compressors";
-import { Compressor6 } from "./c1";
+import { Compressor } from "./compressors.js";
 
-class Compressor7 extends compressors {
+class Compressor7 extends Compressor {
 
-    constructor(...args) {
+  constructor(...args) {
     super(...args);
     console.log("New Miner2 created");
-  
+
+  }
+
+  genTick(compressor6) {
+    if (this.quantity > 0) {
+      var NewCompressor6quantity = this.quantity * this.production;
+      compressor6.quantity = compressor6.quantity + NewCompressor6quantity;
+      return true;
     }
-  
-    genTick(Compressor7){  
-      if (this.quantity > 0){
-        var NewCompressorQuantity6quantity = this.quantity * this.production;
-        Compressor6.quantity = Compressor6.quantity + NewCompressor6quantity;
-        return true;
-      }
-      else{
-        return false;
-      }
+    else {
+      return false;
     }
   }
-  export { Compressor7 };
+}
+export { Compressor7 };

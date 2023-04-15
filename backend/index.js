@@ -6,12 +6,6 @@ const express = require("express");
 const port = 3069;
 const app = express();
 const cookieParser = require('cookie-parser');
-const connection = mysql.createConnection({
-    host: process.env.MYSQL_HOST || 'localhost',
-    user: process.env.MYSQL_USER || 'root',
-    password: process.env.MYSQL_PASSWORD || 'password',
-    database: process.env.MYSQL_DATABASE || 'memleek'
-});
 const pool = mysql.createPool({
     host: process.env.MYSQL_HOST || 'localhost',
     user: process.env.MYSQL_USER || 'root',
@@ -140,7 +134,7 @@ app.get("/api/game_state/:key", (req, res) => {
             // encode state to base64
             const state = Buffer.from(results[0].state).toString('base64');
 
-            res.json({ status: true, state: state});
+            res.json({ status: true, state: state });
         }
     );
 });
@@ -325,7 +319,7 @@ wss.on('connection', (ws) => {
                             );
                         } else {
                             ws.send(JSON.stringify({ type: "locking", message: "Lock found" }));
-                            
+
                         }
                     }
                 );

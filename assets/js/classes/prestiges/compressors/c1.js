@@ -1,5 +1,5 @@
-import { compressors }  from "./compressors.js";
-class Compressor1 extends compressors {
+import { Compressor }  from "./compressors.js";
+class Compressor1 extends Compressor {
 
   constructor(...args) {
     super(...args);

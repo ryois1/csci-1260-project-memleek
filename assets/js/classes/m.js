@@ -41,11 +41,7 @@ class Miner {
       else {
         this.cost = Math.pow(this.cost, 1.25);
       }
-
-      console.log(this.cost);
     }
-
-    console.log(`Current cost: ${this.cost}, New quantity: ${this.quantity}`);
   }
 
   //buy 10 miners

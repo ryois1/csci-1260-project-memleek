@@ -73,6 +73,17 @@ async function loadFromServer(key, minerInstances) {
 
                     const dataState = JSON.parse(atob(data.state));
 
+                    const currentLocalSave = localStorage.getItem('savedata');
+
+                    if (currentLocalSave != null) {
+                        const currentLocalSaveState = JSON.parse(currentLocalSave);
+                        if (currentLocalSaveState.lastSave > dataState.lastSave) {
+                            console.log("Local save state is newer than server save state!");
+                            console.log("Saving local save state to server...");
+                            saveToServer(currentLocalSaveState, minerInstances);
+                            return;
+                        }
+                    }
                     // Store the key in localStorage
                     
                     localStorage.setItem('savedata', dataState);

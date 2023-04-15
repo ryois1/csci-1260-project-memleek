@@ -52,3 +52,5 @@ class Prestige{
         the current prestige layer
     */
 }
+
+export { Prestige };
