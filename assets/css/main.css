@@ -125,6 +125,7 @@ body {
     font-weight: bold;
     color: #fff;
     font-size: 2em;
+    line-height: 1px;
     margin: 0 0 0 0;
     padding: 0 0 0 0;
 }
@@ -255,7 +256,7 @@ label.fc-dark {
 }
 
 .game-logo {
-    max-height: 48px;
+    max-height: 40px;
     margin: 0 auto;
     height: auto;
     object-fit: contain;
@@ -290,4 +291,9 @@ code{
     color: #fff;
     padding: 0.2rem;
     border-radius: 0.2rem;
+}
+
+.nav-link{
+    padding-top: 0;
+    padding-bottom: 0;
 }

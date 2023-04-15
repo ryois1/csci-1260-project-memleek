@@ -3,7 +3,7 @@
 import { Miner1, Miner2, Miner3, Miner4, Miner5, Miner6, Miner7, Miner8 } from './classes/m/index.js';
 // import { Compressor1, Compressor2, Compressor3, Compressor4, Compressor5, Compressor6, Compressor7, Compressor8 } from './classes/prestiges/compressors/index.js';
 import { formatBytes, updateBytes, smoothUpdateMainDisplay } from './utils/Format.js';
-import { miners } from './m.js';
+import { miners } from './m_def.js';
 import { save, load, testLS, saveToServer, loadFromServer } from './utils/SaveState.js';
 import { drawCards, updateCards, drawCheats } from './utils/DrawUI.js';
 import { Boosts } from "./classes/prestiges/boosts.js";

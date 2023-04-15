@@ -16,33 +16,6 @@
 </head>
 
 <body>
-    <!-- BEGIN Nav Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-around">
-        <div class="navbar-nav col-4 d-flex justify-content-start">
-            <div class="text-white bg_color_primary_light  rounded-circle p-2">
-                <ul class="navbar-nav" id="navPaths"></ul>
-            </div>
-        </div>
-
-        <div class="col-4 d-flex justify-content-center">
-            <a class="navbar-brand">Mem.Leek <img src="./assets/images/gamelogo.png" class="game-logo"
-                    alt="Game Logo"></a>
-        </div>
-
-        <button class=" navbar-toggler ml-auto align-items-end" type="button" data-toggle="collapse"
-            data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNavDropdown">
-            <span class="nav-link">Local Save: <span id="localSaveState"></span></span>
-        </div>
-
-    </nav>
-
-    <!-- END Nav Bar -->
-
     <!-- BEGIN Main Content Section -->
 
     <div class="container-fluid" id="main_content">
@@ -81,9 +54,9 @@
             <!---Buy Max Button-->
             <button class="btn btn-danger" id="buyAllMaxBtn" type="button">Buy Max of All Miners</button>
             <!---Sacrifice Button-->
-            <button class="btn btn-danger" id="sacrificeBtn" type="button">Sacrifice</button>
+            <button class="btn btn-danger" id="sacrificeBtn" style="display: none;" type="button">Sacrifice</button>
             <!--Boost button-->
-            <button class="btn btn-danger" id="boostBtn" type="button">Boost </button>
+            <button class="btn btn-danger" id="boostBtn" style="display: none;" type="button">Boost</button>
         </div>
 
 
@@ -230,26 +203,13 @@
     <!-- END Modals -->
 
     <!-- BEGIN Scripts -->
-    <script>
-        let gameInitialized = false;
-        let gameLocked = false;
-        let saveKey = null;
-        let cloudSyncSuccessfulSetup = false;
-        let globalBytes = 10;
-        let settings = {
-            notation: "",
-            gameTickSpeed: 1000,
-            UITick: 100,
-            cloudSyncSpeed: 10000,
-            cloudSyncBaseURL: "https://memleek-sync.ryois.net/api",
-            cloudSyncWS: "wss://memleek-sync.ryois.net/"
-        }
-    </script>
+
+    <!-- Config Script -->
+    <script src="./assets/js/config.js"></script>
 
     <!-- jQuery, Bootstrap, Toast Notifs, and Font Awesome Dependencies -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/toastify-js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/e2f5314e87.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/break_infinity.js@2"></script>
