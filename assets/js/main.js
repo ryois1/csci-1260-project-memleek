@@ -4,12 +4,13 @@ import { miners } from './m_def.js';
 import { Compressor } from './classes/prestiges/compressors/compressors.js';
 import { Prestige } from "./classes/prestiges/prestige.js";
 import { Miner1, Miner2, Miner3, Miner4, Miner5, Miner6, Miner7, Miner8 } from './classes/m/index.js';
-// import { Compressor1, Compressor2, Compressor3, Compressor4, Compressor5, Compressor6, Compressor7, Compressor8 } from './classes/prestiges/compressors/index.js';
 import { formatBytes, updateBytes, smoothUpdateMainDisplay } from './utils/Format.js';
-import { miners } from './m_def.js';
+import { Compressor1, Compressor2, Compressor3, Compressor4, Compressor5, Compressor6, Compressor7, Compressor8} from './classes/prestiges/compressors/index.js';
 import { save, load, testLS, saveToServer, loadFromServer } from './utils/SaveState.js';
 import { drawCards, updateCards, drawCheats } from './utils/DrawUI.js';
 import { Boosts } from "./classes/prestiges/boosts.js";
+
+
 
 testLS();
 
@@ -28,8 +29,6 @@ let miner8 = new Miner8(1, 0, 8, 1, 1e+25, 0, 0,);
 //create the compressors
 // 1 before the id nummber to show its for layer 1
 
-
-/*
 let compressor1 = new Compressor1(11, 1, 1, 0, 0);
 let compressor2 = new Compressor2(12, 1, 1e+2, 0, 0);
 let compressor3 = new Compressor3(13, 1, 1e+5, 0, 0);
@@ -38,7 +37,7 @@ let compressor5 = new Compressor5(15, 1, 1e+20, 0, 0);
 let compressor6 = new Compressor6(16, 1, 1e+30, 0, 0);
 let compressor7 = new Compressor7(17, 1, 1e+40, 0, 0);
 let compressor8 = new Compressor8(18, 1, 1e+80, 0, 0);
-*/
+
 //The compressors break the main game, so they are disabled for now
 
 
@@ -53,7 +52,7 @@ const minerInstances = [
     miner8
 ];
 
-/*
+
 const compressorInstances = [
     compressor1,
     compressor2,
@@ -64,7 +63,7 @@ const compressorInstances = [
     compressor7,
     compressor8
 ];
-*/
+
 
 const boost = new Boosts(1e+19, 0, 1, 0);
 

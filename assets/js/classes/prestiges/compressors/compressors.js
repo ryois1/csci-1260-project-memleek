@@ -1,5 +1,5 @@
 'use strict';
-import { Miner } from '../m.js';
+import { Miner } from '../../m.js';
 
 class Compressor extends Miner{
 //These are the miners of this prestige layer, they boost the production of the previous layer's miners
