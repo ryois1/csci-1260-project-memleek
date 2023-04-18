@@ -23,15 +23,20 @@ let miner7 = new Miner7(7, 1, 1e+19, 0, 0);
 let miner8 = new Miner8(1, 0, 8, 1, 1e+25, 0, 0,);
 
 //create the compressors
-let compressor1 = new Compressor1(1, 1, 1, 0, 0);
-let compressor2 = new Compressor2(2, 1, 1e+2, 0, 0);
-let compressor3 = new Compressor3(3, 1, 1e+5, 0, 0);
-let compressor4 = new Compressor4(4, 1, 1e+10, 0, 0);
-let compressor5 = new Compressor5(5, 1, 1e+20, 0, 0);
-let compressor6 = new Compressor6(6, 1, 1e+30, 0, 0);
-let compressor7 = new Compressor7(7, 1, 1e+40, 0, 0);
-let compressor8 = new Compressor8(1, 0, 8, 1, 1e+80, 0, 0,);
+// 1 before the id nummber to show its for layer 1
 
+
+/*
+let compressor1 = new Compressor1(11, 1, 1, 0, 0);
+let compressor2 = new Compressor2(12, 1, 1e+2, 0, 0);
+let compressor3 = new Compressor3(13, 1, 1e+5, 0, 0);
+let compressor4 = new Compressor4(14, 1, 1e+10, 0, 0);
+let compressor5 = new Compressor5(15, 1, 1e+20, 0, 0);
+let compressor6 = new Compressor6(16, 1, 1e+30, 0, 0);
+let compressor7 = new Compressor7(17, 1, 1e+40, 0, 0);
+let compressor8 = new Compressor8(18, 1, 1e+80, 0, 0);
+*/
+//The compressors break the main game, so they are disabled for now
 
 
 const minerInstances = [
@@ -45,6 +50,7 @@ const minerInstances = [
     miner8
 ];
 
+/*
 const compressorInstances = [
     compressor1,
     compressor2,
@@ -55,7 +61,7 @@ const compressorInstances = [
     compressor7,
     compressor8
 ];
-
+*/
 
 const boost = new Boosts(1e+19, 0, 1, 0);
 
