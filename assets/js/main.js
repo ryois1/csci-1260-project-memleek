@@ -1,5 +1,8 @@
 // Main Page
 // Import the classes
+import { miners } from './m_def.js';
+import { Compressor } from './classes/prestiges/compressors/compressors.js';
+import { Prestige } from "./classes/prestiges/prestige.js";
 import { Miner1, Miner2, Miner3, Miner4, Miner5, Miner6, Miner7, Miner8 } from './classes/m/index.js';
 // import { Compressor1, Compressor2, Compressor3, Compressor4, Compressor5, Compressor6, Compressor7, Compressor8 } from './classes/prestiges/compressors/index.js';
 import { formatBytes, updateBytes, smoothUpdateMainDisplay } from './utils/Format.js';
