@@ -177,16 +177,14 @@ try {
             miner.buyCount = saveState.minerInstances[i].buyCount;
             miner.cost = saveState.minerInstances[i].cost;
             miner.production = saveState.minerInstances[i].production;
-            compressorInstances.forEach(function (compressor, i) {
-                compressor.id = saveState.compressorInstances[i].id;
-                compressor.quantity = saveState.compressorInstances[i].quantity;
-                compressor.buyCount = saveState.compressorInstances[i].buyCount;
-                compressor.cost = saveState.compressorInstances[i].cost;
-                compressor.production = saveState.compressorInstances[i].production;
-            });
 
-
-
+        });
+        compressorInstances.forEach(function (compressor, i) {
+            compressor.id = saveState.compressorInstances[i].id;
+            compressor.quantity = saveState.compressorInstances[i].quantity;
+            compressor.buyCount = saveState.compressorInstances[i].buyCount;
+            compressor.cost = saveState.compressorInstances[i].cost;
+            compressor.production = saveState.compressorInstances[i].production;
         });
         miner8.lastsacrificequantity = saveState.lastsacrificequantity;
         Boosts.quantity = saveState.boostsquantity;
