@@ -22,6 +22,18 @@ let miner6 = new Miner6(6, 1, 1e+14, 0, 0);
 let miner7 = new Miner7(7, 1, 1e+19, 0, 0);
 let miner8 = new Miner8(1, 0, 8, 1, 1e+25, 0, 0,);
 
+//create the compressors
+let compressor1 = new Compressor1(1, 1, 1, 0, 0);
+let compressor2 = new Compressor2(2, 1, 1e+2, 0, 0);
+let compressor3 = new Compressor3(3, 1, 1e+5, 0, 0);
+let compressor4 = new Compressor4(4, 1, 1e+10, 0, 0);
+let compressor5 = new Compressor5(5, 1, 1e+20, 0, 0);
+let compressor6 = new Compressor6(6, 1, 1e+30, 0, 0);
+let compressor7 = new Compressor7(7, 1, 1e+40, 0, 0);
+let compressor8 = new Compressor8(1, 0, 8, 1, 1e+80, 0, 0,);
+
+
+
 const minerInstances = [
     miner1,
     miner2,
@@ -32,6 +44,18 @@ const minerInstances = [
     miner7,
     miner8
 ];
+
+const compressorInstances = [
+    compressor1,
+    compressor2,
+    compressor3,
+    compressor4,
+    compressor5,
+    compressor6,
+    compressor7,
+    compressor8
+];
+
 
 const boost = new Boosts(1e+19, 0, 1, 0);
 
@@ -147,6 +171,16 @@ try {
             miner.buyCount = saveState.minerInstances[i].buyCount;
             miner.cost = saveState.minerInstances[i].cost;
             miner.production = saveState.minerInstances[i].production;
+            compressorInstances.forEach(function (compressor, i) {
+                compressor.id = saveState.compressorInstances[i].id;
+                compressor.quantity = saveState.compressorInstances[i].quantity;
+                compressor.buyCount = saveState.compressorInstances[i].buyCount;
+                compressor.cost = saveState.compressorInstances[i].cost;
+                compressor.production = saveState.compressorInstances[i].production;
+            });
+
+
+
         });
         miner8.lastsacrificequantity = saveState.lastsacrificequantity;
         Boosts.quantity = saveState.boostsquantity;
