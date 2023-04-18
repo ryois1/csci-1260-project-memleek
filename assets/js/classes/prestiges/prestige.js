@@ -1,6 +1,6 @@
 'use strict';
-import { Miner } from '../../m.js';
-import { Compressor } from './classes/prestiges/compressors/compressors.js';
+import { Miner } from '../m.js';
+import { Compressor } from './compressors/compressors.js';
 class Prestige{
 
     id;
