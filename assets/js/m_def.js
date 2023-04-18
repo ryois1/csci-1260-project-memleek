@@ -28,7 +28,7 @@ const miners = [
         image: "Patrick.png",
         description: "Not a Goofy Goober",
         cost: 1e+7,
-        url: "https://www.youtube.com/watch?v=EVR-6AfZ8gk"
+        url: "https://www.youtube.com/watch?v=KoclTGmjV6A&pp=ygUWeW91dHViZSBwb29wIHNwb25nZWJvYg%3D%3D"
     },
     {
         id: "miner5",
