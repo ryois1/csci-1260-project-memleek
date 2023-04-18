@@ -11,9 +11,7 @@ import { drawCards, updateCards, drawCheats } from './utils/DrawUI.js';
 import { Boosts } from "./classes/prestiges/boosts.js";
 
 
-
 testLS();
-
 
 // Create the miners
 
