@@ -125,7 +125,7 @@ body {
     font-weight: bold;
     color: #fff;
     font-size: 2em;
-    line-height: 1px;
+    /*line-height: 1px;*/
     margin: 0 0 0 0;
     padding: 0 0 0 0;
 }

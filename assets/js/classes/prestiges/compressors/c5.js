@@ -4,7 +4,7 @@ class Compressor5 extends Compressor {
 
     constructor(...args) {
     super(...args);
-    console.log("New Miner2 created");
+    console.log("New Compressor5 created");
   
     }
   

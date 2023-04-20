@@ -15,42 +15,6 @@ function save(data) {
     }
 }
 
-/*
-function load() {
-    $("#localSaveState").html(IconMap["loading"]);
-    const data = localStorage.getItem("savedata");
-    if (data == null) {
-        return null;
-    }
-    let output;
-    try {
-        output = JSON.parse(data);
-    } catch (e) {
-        console.log("Error parsing save data!");
-        // Show toast
-        Toastify({
-            text: "Error parsing local save data!",
-            duration: 3000,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            style: {
-                background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
-            }
-        }).showToast();
-
-        // Clear the save data
-        localStorage.removeItem("savedata");
-
-        // Try to load from server
-        loadFromServer(localStorage.getItem('key'));
-
-
-    }
-    return output;
-}*/
-
 function load() {
     $("#localSaveState").html(IconMap["loading"]);
     const data = localStorage.getItem("savedata");
@@ -61,17 +25,7 @@ function load() {
         } catch (e) {
             console.log("Error parsing save data!");
             // Show toast
-            Toastify({
-                text: "Error parsing local save data!",
-                duration: 3000,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
-                }
-            }).showToast();
+            showNotification("Error parsing local save data!", 3000, "rgba(253,29,29,1)", "rgba(252,176,69,1)");
 
             // Clear the save data
             localStorage.removeItem("savedata");
@@ -131,7 +85,7 @@ async function loadFromServer(key, minerInstances) {
                         if (currentLocalSaveState.lastSave > dataState.lastSave) {
                             console.log("Local save state is newer than server save state!");
                             console.log("Saving local save state to server...");
-                            saveToServer(currentLocalSaveState, minerInstances);
+                            saveToServer(saveKey);
                             return;
                         }
                         } else {
@@ -145,14 +99,20 @@ async function loadFromServer(key, minerInstances) {
 
 
                     globalBytes = dataState.globalBytes;
+                    minerInstances[7].sacrificemultiplier = dataState.minerInstances[7].sacrificemultiplier;
+                    minerInstances[7].lastsacrificequantity = dataState.minerInstances[7].lastsacrificequantity;
+                    window.boost.buyCount = dataState.boosts.buyCount;
+                    window.boost.cost = dataState.boosts.cost;
+                    window.boost.multiplier = dataState.boosts.multiplier;
+                    window.boost.quantity = dataState.boosts.quantity;
+
                     minerInstances.forEach(function (miner, i) {
                         miner.id = dataState.minerInstances[i].id;
                         miner.quantity = dataState.minerInstances[i].quantity;
                         miner.buyCount = dataState.minerInstances[i].buyCount;
                         miner.cost = dataState.minerInstances[i].cost;
                         miner.production = dataState.minerInstances[i].production;
-                        minerInstances[7].sacrificemultiplier = dataState.minerInstances[7].sacrificemultiplier;
-                        minerInstances[7].lastsacrificequantity = dataState.minerInstances[7].lastsacrificequantity;
+
                         // Prestige.globalCompressionPoints = dataState.globalCompressionPoints;
                         // Prestige.globalCompressionLevel = dataState.globalCompressionLevel;
                         // Prestige.globalCompressionCost = dataState.globalCompressionCost;
@@ -160,17 +120,7 @@ async function loadFromServer(key, minerInstances) {
                     });
 
                     // Show toast
-                    Toastify({
-                        text: "Save state loaded!",
-                        duration: 1000,
-                        close: true,
-                        gravity: "top", // `top` or `bottom`
-                        position: "right", // `left`, `center` or `right`
-                        stopOnFocus: true, // Prevents dismissing of toast on hover
-                        style: {
-                            background: "linear-gradient(90deg, rgba(0,50,0,1) 0%, rgba(0,193,58,1) 100%)",
-                        }
-                    }).showToast();
+                    showNotification("Save state loaded!", 1000, "rgba(0,50,0,1)", "rgba(0,193,58,1)");
                     $("#cloudSaveState").html(IconMap["downloaded"]);
                     gameInitialized = true;
                 },
@@ -178,17 +128,7 @@ async function loadFromServer(key, minerInstances) {
                 error: function (data) {
                     console.log('Error: ' + data);
                     // Show toast
-                    Toastify({
-                        text: "Unable to get save state from server!",
-                        duration: 3000,
-                        close: true,
-                        gravity: "top", // `top` or `bottom`
-                        position: "right", // `left`, `center` or `right`
-                        stopOnFocus: true, // Prevents dismissing of toast on hover
-                        style: {
-                            background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
-                        }
-                    }).showToast();
+                    showNotification("Unable to get save state from server!", 3000, "rgba(253,29,29,1)", "rgba(252,176,69,1)");
                     $("#cloudSaveState").html(IconMap["error"]);
                 }
             });
@@ -208,7 +148,35 @@ function saveToServer(key) {
         url: `${settings.cloudSyncBaseURL}/game_state/${key}`,
         type: 'POST',
         data: { client_id: clientID, state: localStorage.getItem('savedata') },
-        success: function () {
+        success: async function (response) {
+            if(response.status == false){
+                switch(response.error.code){
+                    case "ER_NO_REFERENCED_ROW_2":
+                        console.log("No save key found on server!");
+                        // Show toast
+                        showNotification("No save key found on server! Getting new one.", 3000, "rgba(253,29,29,1)", "rgba(252,176,69,1)");
+                        $("#cloudSaveState").html(IconMap["upload_error"]);
+
+                        const saveKeyFromServer = await getKeyFromServer();
+                        $('#saveKey').html(`<code>${saveKeyFromServer}</code>`);
+                        saveKey = saveKeyFromServer;
+                        localStorage.setItem('key', saveKeyFromServer);
+
+                        return;
+                    case "ER_DUP_ENTRY":
+                        console.log("Save state is locked to another client!");
+                        // Show toast
+                        showNotification("Save state is locked to another client!", 3000, "rgba(253,29,29,1)", "rgba(252,176,69,1)");
+                        $("#cloudSaveState").html(IconMap["upload_error"]);
+                        return;
+                    default:
+                        console.log("Unknown error!" + response.error.code);
+                        // Show toast
+                        showNotification("Error saving to server!", 3000, "rgba(253,29,29,1)", "rgba(252,176,69,1)");
+                        $("#cloudSaveState").html(IconMap["upload_error"]);
+                        return;
+                }
+            }
             // wait 1 second before changing the icon back
             setTimeout(function () {
                 $("#cloudSaveState").html(IconMap["uploaded"]);
@@ -218,17 +186,7 @@ function saveToServer(key) {
         error: function (data) {
             console.log('Error: ' + data);
             // Show toast
-            Toastify({
-                text: "Unable to send save state to server!",
-                duration: 3000,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
-                }
-            }).showToast();
+            showNotification("Unable to send save state to server!", 3000, "rgba(253,29,29,1)", "rgba(252,176,69,1)");
             $("#cloudSaveState").html(IconMap["upload_error"]);
         }
     });
@@ -272,17 +230,7 @@ function isLocked(key, clientID) {
                 else {
                     console.log(`Save state locked by client: ${data.client}`);
                     // Show toast
-                    Toastify({
-                        text: "Save state locked by another client!",
-                        duration: 3000,
-                        close: true,
-                        gravity: "top", // `top` or `bottom`
-                        position: "right", // `left`, `center` or `right`
-                        stopOnFocus: true, // Prevents dismissing of toast on hover
-                        style: {
-                            background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
-                        }
-                    }).showToast();
+                    showNotification("Save state locked by another client!", 3000, "rgba(253,29,29,1)", "rgba(252,176,69,1)");
                     resolve(true);
                 }
             },
@@ -290,18 +238,25 @@ function isLocked(key, clientID) {
             error: function (data) {
                 console.log('Error: ' + data);
                 // Show toast
-                Toastify({
-                    text: "Unable to get save state from server!",
-                    duration: 3000,
-                    close: true,
-                    gravity: "top", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
-                    style: {
-                        background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
-                    }
-                }).showToast();
+                showNotification("Unable to get save state from server!", 3000, "rgba(253,29,29,1)", "rgba(252,176,69,1)");
                 resolve(true);
+            }
+        });
+    });
+}
+
+async function getKeyFromServer() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: `${settings.cloudSyncBaseURL}/key`,
+            type: 'POST',
+            success: function (data) {
+                resolve(data.key);
+            },
+            // if the request fails, display an error message
+            error: function (data) {
+                console.log('Error: ' + data);
+                reject(data);
             }
         });
     });

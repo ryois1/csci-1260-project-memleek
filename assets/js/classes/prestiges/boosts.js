@@ -26,6 +26,8 @@ class Boosts {
         }
         $('#boostBtn').html(`Boost Cost: ${this.cost.toExponential(2).replace('+','')}`);
         console.log(`Boosts: ${this.quantity} Cost: ${this.cost} Multiplier: ${this.multiplier} Buy Count: ${this.buyCount}`);
+    } else {
+        showNotification("Not enough bytes to buy boost", 3000, "rgba(253,29,29,1)", "rgba(252,176,69,1)");
     }
 
 }

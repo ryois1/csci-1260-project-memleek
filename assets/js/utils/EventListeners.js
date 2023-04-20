@@ -33,17 +33,7 @@ function keypress(e) {
                 console.log(window.minerInstances[7].production);
             } 
             else {
-                Toastify({
-                    text: "Not enough miners to sacrifice",
-                    duration: 3000,
-                    close: true,
-                    gravity: "top", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                    stopOnFocus: true, // Prevents dismissing of toast on hover
-                    style: {
-                        background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
-                    }
-                }).showToast();
+                showNotification("Not enough miners to sacrifice", 1000, "rgba(253,29,29,1)", "rgba(252,176,69,1)");
                 console.log("Not enough miners to sacrifice");
                 break;
             }

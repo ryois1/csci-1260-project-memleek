@@ -40,14 +40,17 @@ const updateBytes = (bytes) => {
 
   if (bytes > 1e+27) {
     $("#bytes").html(bytes.toExponential(2).replace('+', ''));
+    document.title = `${bytes.toExponential(2).replace('+', '')} | Mem.Leek`;
     $("#bytesExt").html('Bytes');
+    
+    $("#bytesPerSec").html(bytesPerSecond.toExponential(2).replace('+', '') + ' Bytes/s');
   } else {
     $("#bytes").html(formatSize(bytes));
+    document.title = `${formatSize(bytes)} | Mem.Leek`;
     $("#bytesExt").html(baseNotation(bytes));
+    $("#bytesPerSec").html(formatBytesPerS(bytesPerSecond));
   }
 
-  $("#bytesPerSec").html(formatBytesPerS(bytesPerSecond));
-  document.title = `${formatBytes(bytes)} | Mem.Leek`;
 }
 
 

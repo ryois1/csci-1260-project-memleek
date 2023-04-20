@@ -7,8 +7,9 @@ import { Miner1, Miner2, Miner3, Miner4, Miner5, Miner6, Miner7, Miner8 } from '
 import { formatBytes, updateBytes, smoothUpdateMainDisplay } from './utils/Format.js';
 import { Compressor1, Compressor2, Compressor3, Compressor4, Compressor5, Compressor6, Compressor7, Compressor8} from './classes/prestiges/compressors/index.js';
 import { save, load, testLS, saveToServer, loadFromServer } from './utils/SaveState.js';
-import { drawCards, updateCards, drawCheats } from './utils/DrawUI.js';
+import { drawCards, updateCards, drawCheats, updateBtns } from './utils/DrawUI.js';
 import { Boosts } from "./classes/prestiges/boosts.js";
+import { showNotification } from "./utils/Notifications.js";
 
 
 testLS();
@@ -92,6 +93,8 @@ function GameTick() {
         globalBytes: globalBytes,
         minerInstances: minerInstances,
         lastsacrificequantity: lastSacrifice,
+        compressorInstances: compressorInstances,
+        boosts: boost,
         lastSave: Date.now()
     }
     //show/hide boost button
@@ -113,17 +116,7 @@ function BuyMiner(miner) {
             const tooltip = bootstrap.Tooltip.getInstance(`#miner${target.id}-btn`);
             tooltip.setContent({ '.tooltip-inner': `Bought: ${target.buyCount}` })
         } else {
-            Toastify({
-                text: "Not enough bytes!",
-                duration: 1000,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
-                }
-            }).showToast();
+            showNotification("Not enough bytes!", 1000, "rgba(253,29,29,1)", "rgba(252,176,69,1)");
         }
     } catch (e) {
         console.log(e);
@@ -139,17 +132,7 @@ function Buy10Miner(miner) {
             const tooltip = bootstrap.Tooltip.getInstance(`#miner${target.id}-btn`);
             tooltip.setContent({ '.tooltip-inner': `Bought: ${target.buyCount}` })
         } else {
-            Toastify({
-                text: "Not enough bytes!",
-                duration: 1000,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "linear-gradient(90deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 100%)",
-                }
-            }).showToast();
+            showNotification("Not enough bytes!", 1000, "rgba(253,29,29,1)", "rgba(252,176,69,1)");
         }
     } catch (e) {
         console.log(e);
@@ -187,10 +170,11 @@ try {
             compressor.production = saveState.compressorInstances[i].production;
         });
         miner8.lastsacrificequantity = saveState.lastsacrificequantity;
-        Boosts.quantity = saveState.boostsquantity;
-        Boosts.cost = saveState.boostscost;
-        Boosts.production = saveState.boostsproduction;
-        Boosts.buyCount = saveState.boostsbuyCount;
+        // console.log(saveState.boosts);
+        boost.buyCount = saveState.boosts.buyCount;
+        boost.cost = saveState.boosts.cost;
+        boost.multiplier = saveState.boosts.multiplier;
+        boost.quantity = saveState.boosts.quantity;
     }
 } catch (e) {
     console.log(e);
@@ -219,6 +203,7 @@ setInterval(GameTick, settings.gameTickSpeed);
 setInterval(() => {
     updateBytes(globalBytes);
     updateCards(minerInstances);
+    updateBtns();
 }, settings.UITick);
 
 
@@ -234,7 +219,9 @@ window.ResetState = ResetState; // Make the ResetState function global
 window.AddBytes = AddBytes; // Make the AddBytes function global
 window.RemoveBytes = RemoveBytes; // Make the RemoveBytes function global
 window.minerInstances = minerInstances; // Make the minerInstances array global
-window.boost = boost;
+window.compressorInstances = compressorInstances; // Make the compressorInstances array global
+window.boost = boost; // Make the boost object global
+window.showNotification = showNotification; // Make the showNotification function global
 
 // Draw the UI
 drawCards(miners, minerInstances);

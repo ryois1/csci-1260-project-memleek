@@ -54,10 +54,25 @@ function updateCards(minerInstances) {
 
 
 function drawCheats() {
-    for (let i = 0; i < 9; i++) {
-        $("#cheatsAddBtns").append(`<button class="btn btn-outline-primary btn-cheat" onclick="AddBytes(1e+${Math.floor(Math.pow(i, 2.75))})">1e${Math.floor(Math.pow(i, 2.75))} Bytes</button>`); // Add the add bytes buttons
-        $("#cheatsRemoveBtns").append(`<button class="btn btn-outline-danger btn-cheat" onclick="RemoveBytes(1e+${Math.floor(Math.pow(i, 2.75))})">-1e${Math.floor(Math.pow(i, 2.75))} Bytes</button>`); // Add the remove bytes buttons
+    // get if url has ?cheats=true
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('cheats') == 'true') {
+        $("#dev-opts").show();
+        for (let i = 0; i < 9; i++) {
+            $("#cheatsAddBtns").append(`<button class="btn btn-outline-primary btn-cheat" onclick="AddBytes(1e+${Math.floor(Math.pow(i, 2.75))})">1e${Math.floor(Math.pow(i, 2.75))} Bytes</button>`); // Add the add bytes buttons
+            $("#cheatsRemoveBtns").append(`<button class="btn btn-outline-danger btn-cheat" onclick="RemoveBytes(1e+${Math.floor(Math.pow(i, 2.75))})">-1e${Math.floor(Math.pow(i, 2.75))} Bytes</button>`); // Add the remove bytes buttons
+        }
+    } else {
+        $("#dev-opts").remove();
     }
 }
 
-export { drawCards, updateCards, drawCheats };
+function updateBtns(){
+    $('#boostBtn').html(`Boost Cost: ${window.boost.cost.toExponential(2).replace('+','')}`);
+    window.minerInstances.forEach((miner, i) => {
+        var title = `Bought: ${miner.buyCount}`;
+        $(`#miner${miner.id}-btn`).data('bs-title', title);
+    });
+}
+
+export { drawCards, updateCards, drawCheats, updateBtns };

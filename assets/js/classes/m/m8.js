@@ -43,9 +43,10 @@ class Miner8 extends Miner {
     console.log(this);
 
     console.log(`This is the sac mult${this.sacrificemult}`);
-    this.production = this.production * sacrificemult;
+    this.production = this.production * Math.round(sacrificemult);
     //increase the requirement for the next sacrifice multiplier
-    this.lastsacrificequantity = sacrificequantity;
+    this.lastsacrificequantity = Math.round(sacrificequantity);
+    //rounding this down to compensate for the rounded multiplier
 
 
   }

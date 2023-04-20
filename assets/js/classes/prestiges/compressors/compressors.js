@@ -15,11 +15,8 @@ class Compressor extends Miner{
         super(...args);
         this.allProductionMultiplier = _allProductionMultiplier;
         this.compressorPower = _compressorPower;
-        console.log("Compressor created");
     }
-    //because this is basically a copy of the previous layer's miners, this shouldnt be too hard to implement, Right?
-
-
+    //because this is basically a copy of the previous layer's miners, this shouldnt be too hard to implement, Right?    
 
 }
 
