@@ -1,299 +1,296 @@
 html,
 body {
-    margin: 0;
-    padding: 0;
-    color: #fff;
-    background: #333;
-    font-family: "Lucida Console", "Courier New", monospace;
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  background: #333;
+  font-family: "Lucida Console", "Courier New", monospace;
 
-    height: 100vh;
-    width: 100%;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    position: absolute;
-    background: linear-gradient(124deg, #41009e, #2d95fd, #cb2dfd);
-    background-size: 1800% 1800%;
+  height: 100vh;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  position: absolute;
+  background: linear-gradient(124deg, #41009e, #2d95fd, #cb2dfd);
+  background-size: 1800% 1800%;
 
-    -webkit-animation: rainbow 18s ease infinite;
-    -z-animation: rainbow 18s ease infinite;
-    -o-animation: rainbow 18s ease infinite;
-    animation: rainbow 18s ease infinite;
-    
+  -webkit-animation: rainbow 18s ease infinite;
+  -z-animation: rainbow 18s ease infinite;
+  -o-animation: rainbow 18s ease infinite;
+  animation: rainbow 18s ease infinite;
 }
 
-#main_content{
-    width: 100%;
-    height: calc(100% - 86px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+#main_content {
+  width: 100%;
+  height: calc(100% - 86px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 @-webkit-keyframes rainbow {
-    0% {
-        background-position: 0% 82%
-    }
+  0% {
+    background-position: 0% 82%;
+  }
 
-    50% {
-        background-position: 100% 19%
-    }
+  50% {
+    background-position: 100% 19%;
+  }
 
-    100% {
-        background-position: 0% 82%
-    }
+  100% {
+    background-position: 0% 82%;
+  }
 }
 
 @-moz-keyframes rainbow {
-    0% {
-        background-position: 0% 82%
-    }
+  0% {
+    background-position: 0% 82%;
+  }
 
-    50% {
-        background-position: 100% 19%
-    }
+  50% {
+    background-position: 100% 19%;
+  }
 
-    100% {
-        background-position: 0% 82%
-    }
+  100% {
+    background-position: 0% 82%;
+  }
 }
 
 @-o-keyframes rainbow {
-    0% {
-        background-position: 0% 82%
-    }
+  0% {
+    background-position: 0% 82%;
+  }
 
-    50% {
-        background-position: 100% 19%
-    }
+  50% {
+    background-position: 100% 19%;
+  }
 
-    100% {
-        background-position: 0% 82%
-    }
+  100% {
+    background-position: 0% 82%;
+  }
 }
 
 @keyframes rainbow {
-    0% {
-        background-position: 0% 82%
-    }
+  0% {
+    background-position: 0% 82%;
+  }
 
-    50% {
-        background-position: 100% 19%
-    }
+  50% {
+    background-position: 100% 19%;
+  }
 
-    100% {
-        background-position: 0% 82%
-    }
-
+  100% {
+    background-position: 0% 82%;
+  }
 }
 
 .title {
-    font-weight: bold;
-    color: #000;
-    text-align: center;
-    margin: 0 0 1em 0;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  margin: 0 0 1em 0;
 }
 
 .card-deck {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .miner-img {
-    width: 256px;
-    height: 256px;
-    object-fit: cover;
+  width: 256px;
+  height: 256px;
+  object-fit: cover;
 }
 
 .miner {
-    margin-left: 1.8em;
-    margin-right: 1.8em;
-    margin-bottom: 1.8em;
-    width: 256px;
+  margin-left: 1.8em;
+  margin-right: 1.8em;
+  margin-bottom: 1.8em;
+  width: 256px;
 }
 
 .miner:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-    transition: all .2s ease-in-out;
-    box-shadow: 0 0 11px rgba(0,0,0,.5); 
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 11px rgba(0, 0, 0, 0.5);
 }
 
 .navbar-brand {
-    font-weight: bold;
-    color: #fff;
-    font-size: 2em;
-    /*line-height: 1px;*/
-    margin: 0 0 0 0;
-    padding: 0 0 0 0;
+  font-weight: bold;
+  color: #fff;
+  font-size: 2em;
+  /*line-height: 1px;*/
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
 }
 
 .navbar {
-    justify-content: space-evenly !important;
-    padding-left: 50px !important;
-    border-right-width: 50px !important;
-    padding-right: 50px !important;
+  justify-content: space-evenly !important;
+  padding-left: 50px !important;
+  border-right-width: 50px !important;
+  padding-right: 50px !important;
 }
 
 .cannotBuy {
-    cursor: not-allowed;
-    background-color: rgba(0,0,0,0);
-    border: 1px solid #8B0000;
-    color: #8B0000;
+  cursor: not-allowed;
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid #8b0000;
+  color: #8b0000;
 }
 
 .cannotBuy:hover {
-    cursor: not-allowed;
-    background-color: #8B0000;
-    border: 1px solid #3F0000;
+  cursor: not-allowed;
+  background-color: #8b0000;
+  border: 1px solid #3f0000;
 }
 
 .card-text {
-    margin-bottom: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 
 #saveKey {
-    margin-right: 1rem;
+  margin-right: 1rem;
 }
 
 .modal {
-    background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.9);
 }
 
 .modal-dialog,
 .modal-content {
-    background-color: #333;
+  background-color: #333;
 }
 
 .modal-header {
-    border-bottom: 1px solid #000;
+  border-bottom: 1px solid #000;
 }
 
 .modal-footer {
-    border-top: 1px solid #000;
+  border-top: 1px solid #000;
 }
 
 .fc-dark {
-    background-color: #0d0d0d;
-    border: 1px solid #000;
-    color: #fff;
+  background-color: #0d0d0d;
+  border: 1px solid #000;
+  color: #fff;
 }
 
 input.fc-dark {
-    background-color: #0d0d0d !important;
-    border: 1px solid #000 !important;
-    color: #fff !important;
+  background-color: #0d0d0d !important;
+  border: 1px solid #000 !important;
+  color: #fff !important;
 }
 
 label.fc-dark {
-    color: #fff !important;
+  color: #fff !important;
 }
 
 .locked {
-    pointer-events: none;
-    user-select: none;
-    opacity: 0.4;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.4;
 }
 
 .hiddenAlert {
-    display: none;
+  display: none;
 }
 
 .visibleAlert {
-    display: block;
+  display: block;
 }
 
 /* Media width  for 768px and up */
 
 @media (max-width: 992px) {
-    #bytes {
-        font-size: 15vw;
-    }
-    
-    #bytesExt {
-        font-size: 10vw;
-    }
+  #bytes {
+    font-size: 15vw;
+  }
+
+  #bytesExt {
+    font-size: 10vw;
+  }
 }
 
 /* Media width  for 992px and up */
 @media screen and (min-width: 992px) {
-    #bytes {
-        font-size: 6rem;
-    }
-    
-    #bytesExt {
-        font-size: 3rem;
-    }
+  #bytes {
+    font-size: 6rem;
+  }
+
+  #bytesExt {
+    font-size: 3rem;
+  }
 }
 
-
 .mainrow {
-    display: inline
+  display: inline;
 }
 
 .icon_row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .icon_col {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .card-cheats {
-    margin-top: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .navbar.bg-dark {
-    background-color: rgba(0, 0, 0, 0.8) !important;
+  background-color: rgba(0, 0, 0, 0.8) !important;
 }
 
 .game-logo {
-    max-height: 40px;
-    margin: 0 auto;
-    height: auto;
-    object-fit: contain;
+  max-height: 40px;
+  margin: 0 5px 0 0;
+  height: auto;
+  object-fit: contain;
 }
 
 .dev-opts {
-    max-width: 70%;
-    margin:0 auto;
+  max-width: 70%;
+  margin: 0 auto;
 }
 
 .btn-cheat {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .miner-name {
-    margin-top: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .save-indicator {
-    min-height: 2rem;
-    max-width: 45%;
-    margin: 0 auto;
+  min-height: 2rem;
+  max-width: 45%;
+  margin: 0 auto;
 }
 
-.bottom-content{
-    padding-bottom: 1rem;
+.bottom-content {
+  padding-bottom: 1rem;
 }
 
-code{
-    background-color: #000;
-    color: #fff;
-    padding: 0.2rem;
-    border-radius: 0.2rem;
+code {
+  background-color: #000;
+  color: #fff;
+  padding: 0.2rem;
+  border-radius: 0.2rem;
 }
 
-.nav-link{
-    padding-top: 0;
-    padding-bottom: 0;
+.nav-link {
+  padding-top: 0;
+  padding-bottom: 0;
 }

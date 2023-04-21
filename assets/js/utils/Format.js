@@ -39,14 +39,13 @@ const updateBytes = (bytes) => {
   let bytesPerSecond = window.minerInstances[0].production * window.minerInstances[0].quantity;
 
   if (bytes > 1e+27) {
-    $("#bytes").html(bytes.toExponential(2).replace('+', ''));
-    document.title = `${bytes.toExponential(2).replace('+', '')} | Mem.Leek`;
+    $("#bytes").html(bytes.toExponential(2).replace('+', '').toFixed(2));
+    document.title = `${bytes.toExponential(2).replace('+', '')} | ${bytesPerSecond.toExponential(2).replace('+', '') + ' B/s'} | Mem.Leek`;
     $("#bytesExt").html('Bytes');
-    
     $("#bytesPerSec").html(bytesPerSecond.toExponential(2).replace('+', '') + ' Bytes/s');
   } else {
     $("#bytes").html(formatSize(bytes));
-    document.title = `${formatSize(bytes)} | Mem.Leek`;
+    document.title = `${formatSize(bytes)} ${baseNotation(bytes)} | ${formatBytesPerS(bytesPerSecond)} | Mem.Leek`;
     $("#bytesExt").html(baseNotation(bytes));
     $("#bytesPerSec").html(formatBytesPerS(bytesPerSecond));
   }

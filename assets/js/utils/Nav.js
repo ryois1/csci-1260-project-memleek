@@ -9,11 +9,10 @@ $(document).ready(function () {
   const currentPath = window.location.pathname;
 
   $("body").prepend(`<!-- BEGIN Nav Bar -->
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span></button>
-    <div class="container-fluid d-flex justify-content-around">
+    <div class="container d-flex justify-content-around">
       <a class="navbar-brand d-flex">Mem.Leek <img src="./assets/images/gamelogo.png" class="game-logo d-none d-sm-block" alt="Game Logo"></a>
       <div class="collapse navbar-collapse justify-content-center" id="navbarToggle">
       <ul class="navbar-nav" id="navPaths"></ul>
@@ -21,9 +20,7 @@ $(document).ready(function () {
       <span class="nav-link d-flex justify-content-end">Local Save: <span id="localSaveState"></span></span>
     </div>
   </nav>
-
-    <!-- END Nav Bar -->`);
-
+  <!-- END Nav Bar -->`);
   navPaths.forEach(function (navPath) {
     $("#navPaths").append(
       `<li class="nav-item"><span class="nav-link"><a href="${
