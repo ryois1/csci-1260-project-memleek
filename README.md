@@ -8,7 +8,7 @@
 ### Group Members
 
 * Luke Berry
-* Deep Dasai
+* Deep Desai
 * Brendan Dalhover
 * Jake Hebert
 * Russell Payne
